@@ -36,12 +36,14 @@ class BaseColumn():
 
 
 class SpelerColumn(BaseColumn):
+    """Frame voor een speler"""
 
     def start(self):
         self._ent_name.config(state=tk.DISABLED)
 
 
 class AIColumn(BaseColumn):
+    """Frame voor een AI"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
