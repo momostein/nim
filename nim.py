@@ -25,15 +25,17 @@ class Main(tk.Tk):
 
         # Bovenste Frame met spelers en hun labels
         self._topFrame = TopFrame(self)
-        self._topFrame.grid(column=0, padx=5, pady=5)
 
         # Middenste Frame met alle stapels
         self._midFrame = heap.HeapFrame(self, HEAPS)
-        self._midFrame.grid(column=0, padx=5, pady=5)
 
         # Onderste Frame met alle knoppen
         self._botFrame = BotFrame(self, self.zet, self.nieuw, self.stop)
-        self._botFrame.grid(column=0, padx=5, pady=5)
+
+        # Zet de frames in de grid
+        self._topFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
+        self._midFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
+        self._botFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
 
         # Zet de focus op de eerste name entry
         self._topFrame.focus()
@@ -93,19 +95,25 @@ class BotFrame(tk.Frame):
         self._btn_zet = tk.Button(self,
                                   text="Zet",
                                   command=zet,
-                                  state=tk.DISABLED)
+                                  state=tk.DISABLED,
+                                  width=10)
 
         self._btn_nieuw = tk.Button(self,
                                     text="Nieuw",
-                                    command=nieuw)
+                                    command=nieuw,
+                                    width=10)
 
         self._btn_stop = tk.Button(self,
                                    text="Stop",
-                                   command=stop)
+                                   command=stop,
+                                   width=10)
 
-        self._btn_zet.grid(row=0, column=0, padx=2, pady=2)
-        self._btn_nieuw.grid(row=0, column=1, padx=2, pady=2)
-        self._btn_stop.grid(row=0, column=2, padx=2, pady=2)
+        self._btn_zet.grid(row=0, column=0, padx=2, pady=2, sticky="nesw")
+        self._btn_nieuw.grid(row=0, column=1, padx=2, pady=2, sticky="nesw")
+        self._btn_stop.grid(row=0, column=2, padx=2, pady=2, sticky="nesw")
+
+        for x in range(3):
+            self.columnconfigure(x, weight=1)
 
     def start(self):
         self._btn_zet.config(state=tk.NORMAL)
