@@ -7,23 +7,20 @@ import os
 import player
 
 
-class Main(tk.Frame):
+class Main(tk.Tk):
 
-    def __init__(self, master=None):
-        super().__init__(master)
+    def __init__(self):
+        super().__init__()
 
-        self.winfo_toplevel().title("NIM")
-        self.winfo_toplevel().iconbitmap(os.path.realpath('images/nim_icon.ico'))
+        self.title("NIM")
+        self.iconbitmap(os.path.realpath('images/nim_icon.ico'))
 
-        speler = player.SpelerFrame(self,
-                                    label='Banaan')
-        speler.pack()
+        self.speler = player.SpelerFrame(self,
+                                         label='Banaan')
+        self.speler.pack()
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    app = Main()
 
-    mainFrame = Main(root)
-
-    mainFrame.pack()
-    root.mainloop()
+    app.mainloop()

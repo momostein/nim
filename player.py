@@ -11,19 +11,23 @@ class SpelerFrame(tk.Frame):
         super().__init__(master)
 
         self._lbl_label = tk.Label(self, text=label)
-        self._lbl_label.grid(row=0)
 
-        self._name = tk.StringVar()
+        # StringVar kan niet private zijn
+        # Error tijdens sluiten
+        self.name = tk.StringVar()
+        self.name.set("")
         self._ent_name = tk.Entry(self,
-                                  textvariable=self._name)
-        self._ent_name.grid(row=1)
+                                  textvariable=self.name)
 
         self._zetten = tk.IntVar(value=0)
         self._ent_zetten = tk.Entry(self,
                                     textvariable=self._zetten,
                                     state=tk.DISABLED)
+
+        self._lbl_label.grid(row=0)
+        self._ent_name.grid(row=1)
         self._ent_zetten.grid(row=2)
 
-    @property
-    def name(self):
-        return self._name.get()
+    def zet(self):
+        print("zet")
+        self._zetten.set(self._zetten.get() + 1)
