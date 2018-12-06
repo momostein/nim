@@ -31,6 +31,10 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.start()
 
+    @property
+    def state(self):
+        return [heap.tokens for heap in self._heaps]
+
 
 class Heap(tk.Frame):
     """Een frame voor een stapel"""
@@ -48,12 +52,13 @@ class Heap(tk.Frame):
                                     textvariable=self._tokens,
                                     state=tk.DISABLED)
 
-        # Input veld
+        # Inputveld
         self._input = tk.IntVar()
         self._ent_input = tk.Entry(self,
                                    textvariable=self._input,
                                    state=tk.DISABLED)
 
+        # Voeg ze toe aan de grid
         self._lbl_title.grid(row=0)
         self._ent_tokens.grid(row=1)
         self._ent_input.grid(row=2)
@@ -62,3 +67,7 @@ class Heap(tk.Frame):
         self._tokens.set(random.randint(MIN, MAX))
         self._input.set(0)
         self._ent_input.config(state=tk.NORMAL)
+
+    @property
+    def tokens(self):
+        return self._tokens.get()

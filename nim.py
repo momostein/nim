@@ -31,19 +31,21 @@ class Main(tk.Tk):
         self._midFrame = heap.HeapFrame(self, HEAPS)
         self._midFrame.grid(column=0, padx=5, pady=5)
 
-        startbutton = tk.Button(self,
-                                text="Start",
-                                command=self.start)
-        startbutton.grid(column=0)
+        # Onderste Frame met alle knoppen
+        self._botFrame = BotFrame(self, self.zet, self.nieuw)
+        self._botFrame.grid(column=0, padx=5, pady=5)
 
-        button = tk.Button(self, text="Zet",
-                           command=self._topFrame.spelers[0].zet)
-
-        button.grid(column=0)
-
-    def start(self):
+    def nieuw(self):
         self._topFrame.start()
         self._midFrame.start()
+
+    def zet(self):
+        print(self._midFrame.state)
+        self._topFrame.spelers[0].zet()
+
+    def stop(self):
+        print("Stoppen...")
+        
 
 
 class TopFrame(tk.Frame):
@@ -72,6 +74,29 @@ class TopFrame(tk.Frame):
     @property
     def spelers(self):
         return self._spelers.copy()
+
+
+class BotFrame(tk.Frame):
+    """Onderste frame met al de knoppen"""
+
+    def __init__(self, master=None, zet=None, nieuw=None, stop=None):
+        super().__init__(master)
+
+        self._btn_zet = tk.Button(self,
+                                  text="Zet",
+                                  command=zet)
+
+        self._btn_nieuw = tk.Button(self,
+                                    text="Nieuw",
+                                    command=nieuw)
+
+        self._btn_stop = tk.Button(self,
+                                   text="Stop",
+                                   command=stop)
+
+        self._btn_zet.grid(row=0, column=0, padx=2, pady=2)
+        self._btn_nieuw.grid(row=0, column=1, padx=2, pady=2)
+        self._btn_nieuw.grid(row=0, column=2, padx=2, pady=2)
 
 
 if __name__ == "__main__":
