@@ -45,7 +45,6 @@ class Main(tk.Tk):
 
     def stop(self):
         print("Stoppen...")
-        
 
 
 class TopFrame(tk.Frame):
