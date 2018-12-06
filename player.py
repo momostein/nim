@@ -4,30 +4,49 @@
 import tkinter as tk
 
 
-class SpelerFrame(tk.Frame):
+class BaseColumn():
     """Basisframe voor een speler/AI"""
 
-    def __init__(self, master=None, label='Leeg'):
-        super().__init__(master)
+    def __init__(self, master=None, column=0, label='Leeg'):
 
-        self._lbl_label = tk.Label(self, text=label)
+        self._lbl_label = tk.Label(master, text=label)
 
         # StringVar kan niet private zijn
         # Error tijdens sluiten
         self.name = tk.StringVar()
         self.name.set("")
-        self._ent_name = tk.Entry(self,
+        self._ent_name = tk.Entry(master,
                                   textvariable=self.name)
 
         self._zetten = tk.IntVar(value=0)
-        self._ent_zetten = tk.Entry(self,
+        self._ent_zetten = tk.Entry(master,
                                     textvariable=self._zetten,
                                     state=tk.DISABLED)
 
-        self._lbl_label.grid(row=0)
-        self._ent_name.grid(row=1)
-        self._ent_zetten.grid(row=2)
+        self._lbl_label.grid(row=0, column=column)
+        self._ent_name.grid(row=1, column=column, padx=2)
+        self._ent_zetten.grid(row=2, column=column, padx=2)
 
     def zet(self):
         print("zet")
         self._zetten.set(self._zetten.get() + 1)
+
+    def start(self):
+        pass
+
+
+class SpelerColumn(BaseColumn):
+
+    def start(self):
+        self._ent_name.config(state=tk.DISABLED)
+
+
+class AIColumn(BaseColumn):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._ent_name.config(state=tk.DISABLED)
+
+    def start(self):
+        self.name.set('HAL 9000')
