@@ -15,10 +15,8 @@ class Main(tk.Frame):
         self.winfo_toplevel().title("NIM")
         self.winfo_toplevel().iconbitmap(os.path.realpath('images/nim_icon.ico'))
 
-        spelerNaam = tk.StringVar()
         speler = player.SpelerFrame(self,
-                                    label='Banaan',
-                                    naamvariable=spelerNaam)
+                                    label='Banaan')
         speler.pack()
 
 

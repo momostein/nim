@@ -7,13 +7,13 @@ import tkinter as tk
 class SpelerFrame(tk.Frame):
     """Basisframe voor een speler/AI"""
 
-    def __init__(self, master=None, label='Leeg', naamvariable=None):
+    def __init__(self, master=None, label='Leeg'):
         super().__init__(master)
 
         self._lbl_label = tk.Label(self, text=label)
         self._lbl_label.grid(row=0)
 
-        self._name = naamvariable
+        self._name = tk.StringVar()
         self._ent_name = tk.Entry(self,
                                   textvariable=self._name)
         self._ent_name.grid(row=1)
