@@ -5,6 +5,9 @@ import tkinter as tk
 import os
 
 import player
+import heap
+
+HEAPS = 3
 
 
 class Main(tk.Tk):
@@ -24,6 +27,10 @@ class Main(tk.Tk):
         self._topFrame = TopFrame(self)
         self._topFrame.grid(column=0, padx=5, pady=5)
 
+        # Middenste Frame met alle stapels
+        self._midFrame = heap.HeapFrame(self, HEAPS)
+        self._midFrame.grid(column=0, padx=5, pady=5)
+
         startbutton = tk.Button(self,
                                 text="Start",
                                 command=self.start)
@@ -36,6 +43,7 @@ class Main(tk.Tk):
 
     def start(self):
         self._topFrame.start()
+        self._midFrame.start()
 
 
 class TopFrame(tk.Frame):
