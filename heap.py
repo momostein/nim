@@ -31,6 +31,9 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.start()
 
+    def focus(self, key=0):
+        self._heaps[key].focus()
+
     @property
     def state(self):
         return [heap.tokens for heap in self._heaps]
@@ -67,6 +70,9 @@ class Heap(tk.Frame):
         self._tokens.set(random.randint(MIN, MAX))
         self._input.set(0)
         self._ent_input.config(state=tk.NORMAL)
+
+    def focus(self):
+        self._ent_input.focus_set()
 
     @property
     def tokens(self):

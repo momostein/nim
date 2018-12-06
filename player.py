@@ -34,6 +34,9 @@ class BaseColumn():
     def start(self):
         pass
 
+    def focus(self):
+        self._ent_name.focus_set()
+
 
 class SpelerColumn(BaseColumn):
     """Frame voor een speler"""

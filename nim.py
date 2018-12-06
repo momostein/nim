@@ -32,12 +32,18 @@ class Main(tk.Tk):
         self._midFrame.grid(column=0, padx=5, pady=5)
 
         # Onderste Frame met alle knoppen
-        self._botFrame = BotFrame(self, self.zet, self.nieuw)
+        self._botFrame = BotFrame(self, self.zet, self.nieuw, self.stop)
         self._botFrame.grid(column=0, padx=5, pady=5)
+
+        # Zet de focus op de eerste name entry
+        self._topFrame.focus()
 
     def nieuw(self):
         self._topFrame.start()
         self._midFrame.start()
+        self._botFrame.start()
+
+        self._midFrame.focus()
 
     def zet(self):
         print(self._midFrame.state)
@@ -45,6 +51,7 @@ class Main(tk.Tk):
 
     def stop(self):
         print("Stoppen...")
+        self.quit()
 
 
 class TopFrame(tk.Frame):
@@ -70,6 +77,9 @@ class TopFrame(tk.Frame):
         for speler in self._spelers:
             speler.start()
 
+    def focus(self, key=0):
+        self._spelers[key].focus()
+
     @property
     def spelers(self):
         return self._spelers.copy()
@@ -80,10 +90,10 @@ class BotFrame(tk.Frame):
 
     def __init__(self, master=None, zet=None, nieuw=None, stop=None):
         super().__init__(master)
-
         self._btn_zet = tk.Button(self,
                                   text="Zet",
-                                  command=zet)
+                                  command=zet,
+                                  state=tk.DISABLED)
 
         self._btn_nieuw = tk.Button(self,
                                     text="Nieuw",
@@ -95,7 +105,10 @@ class BotFrame(tk.Frame):
 
         self._btn_zet.grid(row=0, column=0, padx=2, pady=2)
         self._btn_nieuw.grid(row=0, column=1, padx=2, pady=2)
-        self._btn_nieuw.grid(row=0, column=2, padx=2, pady=2)
+        self._btn_stop.grid(row=0, column=2, padx=2, pady=2)
+
+    def start(self):
+        self._btn_zet.config(state=tk.NORMAL)
 
 
 if __name__ == "__main__":
