@@ -30,7 +30,7 @@ class Main(tk.Tk):
         self._midFrame = heap.HeapFrame(self, HEAPS)
 
         # Onderste Frame met alle knoppen
-        self._botFrame = BotFrame(self, self.zet, self.nieuw, self.stop)
+        self._botFrame = BtnFrame(self, self.zet, self.nieuw, self.stop)
 
         # Zet de frames in de grid
         self._topFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
@@ -79,8 +79,7 @@ class TopFrame(tk.Frame):
         self._lbl_top_naam.grid(row=1, sticky=tk.W)
         self._lbl_top_zetten.grid(row=2, sticky=tk.W)
 
-        # Misschien later opsplitsen in Spelers en AI
-        # om meerdere Spelers of AI mogelijk te maken...
+        # TODO: Splits Speler en AI arrays
         self._spelers = [player.SpelerColumn(self, 1, 'Speler'),
                          player.AIColumn(self, 2, 'AI')]
 
@@ -96,7 +95,7 @@ class TopFrame(tk.Frame):
         return self._spelers.copy()
 
 
-class BotFrame(tk.Frame):
+class BtnFrame(tk.Frame):
     """Onderste frame met al de knoppen"""
 
     def __init__(self, master=None, zet=None, nieuw=None, stop=None):

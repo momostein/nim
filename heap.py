@@ -35,6 +35,8 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.start()
 
+    # TODO: Zet het inlezen van de values in een andere functie.
+    #       Zo kunnen AI's deze functie ook gebruiken
     def zet(self):
         inputs = []
         moreThanZero = 0
