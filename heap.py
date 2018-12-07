@@ -35,12 +35,14 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.start()
 
-    # TODO: Zet het inlezen van de values in een andere functie.
-    #       Zo kunnen AI's deze functie ook gebruiken
-    def zet(self):
+    def getZet(self):
         inputs = []
         moreThanZero = 0
-        for heap in self._heaps:
+
+        heapKey = -1
+        amount = -1
+
+        for i, heap in enumerate(self._heaps):
             try:
                 val = int(heap.input)
                 inputs.append(val)
@@ -48,22 +50,25 @@ class HeapFrame(tk.Frame):
                 if val > 0:
                     moreThanZero += 1
 
+                    heapKey = i
+                    amount = val
+
             except ValueError as e:
                 heap.focus()
                 raise ValueError('U moet geldige getallen ingeven!')
 
         if moreThanZero == 0:
-            self._heaps[0].focus()
+            self.focus()
             raise ValueError('U moet minstens één token nemen!')
 
         if moreThanZero > 1:
-            self._heaps[0].focus()
+            self.focus()
             raise ValueError('U mag maar van één stapel nemen!')
 
-        for heap in self._heaps:
-            heap.zet()
+        return (heapKey, amount)
 
-        self.focus()
+    def zet(self, zet):
+        self._heaps[zet[0]].zet(zet[1])
 
     def focus(self, key=0):
 
@@ -141,8 +146,10 @@ class Heap(tk.Frame):
         self.strInput.set(0)
         self.enable()
 
-    def zet(self):
-        amount = int(self.input)
+    def zet(self, amount):
+        if amount < 0:
+            self.focus()
+            raise ValueError("Je kan geen negatief getal nemen!")
 
         if amount > self.tokens:
             self.focus()

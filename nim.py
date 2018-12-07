@@ -53,12 +53,16 @@ class Main(tk.Tk):
         print("zet")
 
         try:
-            self._midFrame.zet()
+            zet = self._midFrame.getZet()
+
+            self._midFrame.zet(zet)
+
         except ValueError as e:
             print(e)
             return
 
         self._topFrame.spelers[0].zet()
+        self._midFrame.focus()
 
     def stop(self):
         print("Stoppen...")
