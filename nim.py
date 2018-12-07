@@ -21,7 +21,7 @@ class Main(tk.Tk):
         self.iconbitmap(os.path.realpath('images/nim_icon.ico'))
 
         # Niet resizable in elke richting
-        self.resizable(False, False)
+        self.resizable(True, False)
 
         # Bovenste Frame met spelers en hun labels
         self._topFrame = TopFrame(self)
@@ -37,6 +37,8 @@ class Main(tk.Tk):
         self._midFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
         self._botFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
 
+        self.columnconfigure(0, weight=1)
+
         # Zet de focus op de eerste name entry
         self._topFrame.focus()
 
@@ -48,7 +50,14 @@ class Main(tk.Tk):
         self._midFrame.focus()
 
     def zet(self):
-        print(self._midFrame.state)
+        print("zet")
+
+        try:
+            self._midFrame.zet()
+        except ValueError as e:
+            print(e)
+            return
+
         self._topFrame.spelers[0].zet()
 
     def stop(self):

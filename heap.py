@@ -35,8 +35,42 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.start()
 
+    def zet(self):
+        inputs = []
+        moreThanZero = 0
+        for heap in self._heaps:
+            try:
+                val = int(heap.input)
+                inputs.append(val)
+
+                if val > 0:
+                    moreThanZero += 1
+
+            except ValueError as e:
+                heap.focus()
+                raise ValueError('U moet geldige getallen ingeven!')
+
+        if moreThanZero == 0:
+            self._heaps[0].focus()
+            raise ValueError('U moet minstens één token nemen!')
+
+        if moreThanZero > 1:
+            self._heaps[0].focus()
+            raise ValueError('U mag maar van één stapel nemen!')
+
+        for heap in self._heaps:
+            heap.zet()
+
+        self.focus()
+
     def focus(self, key=0):
-        self._heaps[key].focus()
+
+        for heap in self._heaps[key:]:
+            if not heap.disabled:
+                heap.focus()
+                return True
+        else:
+            return False
 
     def onValidate(self, d, P, S):
         # %d = Type of action (1=insert, 0=delete, -1 for others)
@@ -72,6 +106,9 @@ class Heap(tk.Frame):
     def __init__(self, master=None, title="Stapel", vcmd=None):
         super().__init__(master)
 
+        self._title = title
+        self._disabled = True
+
         # Titel van de stapel
         self._lbl_title = tk.Label(self,
                                    text=title)
@@ -95,19 +132,38 @@ class Heap(tk.Frame):
         self._ent_tokens.grid(row=1, sticky='nesw')
         self._ent_input.grid(row=2, sticky='nesw')
 
+        self.columnconfigure(0, weight=1)
+
     def start(self):
         self._tokens.set(random.randint(MIN, MAX))
         self.strInput.set(0)
-        self._ent_input.config(state=tk.NORMAL)
+        self.enable()
+
+    def zet(self):
+        amount = int(self.input)
+
+        if amount > self.tokens:
+            self.focus()
+            raise ValueError("Je kunt maximaal {:d} tokens van {:s} nemen".format(
+                self.tokens,
+                self._title))
+
+        else:
+            self._tokens.set(self.tokens - amount)
+            self.input = 0
+            if self.tokens == 0:
+                self.disable()
 
     def focus(self):
         self._ent_input.focus_set()
 
     def disable(self):
         self._ent_input.config(state=tk.DISABLED)
+        self._disabled = True
 
     def enable(self):
         self._ent_input.config(state=tk.NORMAL)
+        self._disabled = False
 
     @property
     def tokens(self):
@@ -120,3 +176,7 @@ class Heap(tk.Frame):
     @input.setter
     def input(self, val):
         self.strInput.set(int(val))
+
+    @property
+    def disabled(self):
+        return self._disabled

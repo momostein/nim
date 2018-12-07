@@ -8,7 +8,6 @@ class BaseColumn():
     """Basisframe voor een speler/AI"""
 
     def __init__(self, master=None, column=0, label='Leeg'):
-
         self._lbl_label = tk.Label(master, text=label)
 
         # StringVar kan niet private zijn
@@ -23,12 +22,13 @@ class BaseColumn():
                                     textvariable=self._zetten,
                                     state=tk.DISABLED)
 
-        self._lbl_label.grid(row=0, column=column)
-        self._ent_name.grid(row=1, column=column, padx=2)
-        self._ent_zetten.grid(row=2, column=column, padx=2)
+        self._lbl_label.grid(row=0, column=column, sticky='nesw')
+        self._ent_name.grid(row=1, column=column, padx=2, sticky='nesw')
+        self._ent_zetten.grid(row=2, column=column, padx=2, sticky='nesw')
+
+        master.columnconfigure(column, weight=1)
 
     def zet(self):
-        print("zet")
         self._zetten.set(self._zetten.get() + 1)
 
     def start(self):
