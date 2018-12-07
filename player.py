@@ -54,4 +54,4 @@ class AIColumn(BaseColumn):
         self._ent_name.config(state=tk.DISABLED)
 
     def start(self):
-        self.name.set('HAL 9000')
+        self.name.set('Hall')
