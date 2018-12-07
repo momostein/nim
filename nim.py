@@ -2,6 +2,7 @@
 # Brecht Ooms / 2 ELO-ICT / 2018
 
 import tkinter as tk
+from tkinter import messagebox
 import os
 
 import player
@@ -58,7 +59,7 @@ class Main(tk.Tk):
             self._midFrame.zet(zet)
 
         except ValueError as e:
-            print(e)
+            messagebox.showwarning(title='Fout!', message=e)
             return
 
         self._topFrame.spelers[0].zet()
