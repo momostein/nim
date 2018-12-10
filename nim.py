@@ -74,7 +74,7 @@ class Main(tk.Tk):
 class TopFrame(tk.Frame):
     """Bovenste frame met de speler en de AI"""
 
-    def __init__(self, master=None):
+    def __init__(self, master=None, spelers=None):
         super().__init__(master)
 
         # Maak de labels
@@ -86,8 +86,15 @@ class TopFrame(tk.Frame):
         self._lbl_top_zetten.grid(row=2, sticky=tk.W)
 
         # TODO: Splits Speler en AI arrays
-        self._spelers = [player.SpelerColumn(self, 1, 'Speler'),
-                         player.AIColumn(self, 2, 'AI')]
+        if not spelers:
+            self._spelers = [player.SpelerColumn(self, 'Speler'),
+                             player.AIColumn(self, 'AI')]
+        else:
+            self._spelers = spelers
+
+        for i, speler in enumerate(self._spelers, start=1):
+            print(i)
+            speler.grid(i)
 
     def start(self):
         for speler in self._spelers:

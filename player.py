@@ -4,10 +4,11 @@
 import tkinter as tk
 
 
-class BaseColumn():
+class _BaseColumn():
     """Basisframe voor een speler/AI"""
 
-    def __init__(self, master=None, column=0, label='Leeg'):
+    def __init__(self, master=None, label='Leeg'):
+        self._master = master
         self._lbl_label = tk.Label(master, text=label)
 
         # StringVar kan niet private zijn
@@ -22,12 +23,22 @@ class BaseColumn():
                                     textvariable=self._zetten,
                                     state=tk.DISABLED)
 
-        self._lbl_label.grid(row=0, column=column, sticky='nesw')
-        self._ent_name.grid(row=1, column=column, padx=2, sticky='nesw')
-        self._ent_zetten.grid(row=2, column=column, padx=2, sticky='nesw')
+    def grid(self, column=0, row=0):
+        # Zet alle widgets in de juiste column
+        self._lbl_label.grid(row=row,
+                             column=column,
+                             sticky='nesw')
+
+        self._ent_name.grid(row=row + 1,
+                            column=column, padx=2,
+                            sticky='nesw')
+
+        self._ent_zetten.grid(row=row + 2,
+                              column=column,
+                              padx=2, sticky='nesw')
 
         # Maak de colom resizeable
-        master.columnconfigure(column, weight=1)
+        self._master.columnconfigure(column, weight=1)
 
     def zet(self):
         self._zetten.set(self._zetten.get() + 1)
@@ -39,14 +50,14 @@ class BaseColumn():
         self._ent_name.focus_set()
 
 
-class SpelerColumn(BaseColumn):
+class SpelerColumn(_BaseColumn):
     """Frame voor een speler"""
 
     def start(self):
         self._ent_name.config(state=tk.DISABLED)
 
 
-class AIColumn(BaseColumn):
+class AIColumn(_BaseColumn):
     """Frame voor een AI"""
 
     def __init__(self, *args, **kwargs):
