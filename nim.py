@@ -135,12 +135,12 @@ class TopFrame(tk.Frame):
             self._spelers = spelers
 
         for i, speler in enumerate(self._spelers, start=1):
-            print(i)
             speler.grid(i)
 
     def start(self):
+        playercount = len(self._spelers)
         for speler in self._spelers:
-            speler.start()
+            speler.start(playercount)
 
     def focus(self, key=0):
         self._spelers[key].focus()

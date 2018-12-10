@@ -52,8 +52,11 @@ class _BaseColumn():
     def zet(self):
         self._zetten.set(self._zetten.get() + 1)
 
-    def start(self):
+    def start(self, playercount=-1):
+        self._setName()
+
         self._ent_name.config(state=tk.DISABLED)
+        self._playercount = playercount
 
     def focus(self):
         self._ent_name.focus_set()
@@ -65,6 +68,10 @@ class _BaseColumn():
     @property
     def name(self):
         return self._name.get()
+
+    # Private functie die de naam eventueel veranderd
+    def _setName(self):
+        pass
 
 
 class Speler(_BaseColumn):
@@ -78,15 +85,13 @@ class Speler(_BaseColumn):
         # Enable de name entry
         self._ent_name.config(state=tk.NORMAL)
 
-    def start(self):
-        self._ent_name.config(state=tk.DISABLED)
-
 
 class RandomAI(_BaseColumn):
     """Een AI die willekeurige zetten doet"""
 
-    def start(self):
+    def _setName(self):
         self._name.set('Hall')
 
     def getZet(self, state):
+        # Test zet (kan errors creëren)
         return (0, 1)
