@@ -9,15 +9,21 @@ class _BaseColumn():
 
     def __init__(self, master=None, label='Leeg'):
         self._master = master
+
+        # True: wacht voor user input (Speler)
+        # False: Speel automatisch (AI)
+        self._human = False
+
+        # Label bovenaan
         self._lbl_label = tk.Label(master, text=label)
 
-        # StringVar kan niet private zijn
-        # Error tijdens sluiten
-        self.name = tk.StringVar()
-        self.name.set("")
+        self._name = tk.StringVar()
+        self._name.set("")
         self._ent_name = tk.Entry(master,
-                                  textvariable=self.name)
+                                  textvariable=self._name,
+                                  state=tk.DISABLED)
 
+        # Aantal zetten
         self._zetten = tk.IntVar(value=0)
         self._ent_zetten = tk.Entry(master,
                                     textvariable=self._zetten,
@@ -40,34 +46,47 @@ class _BaseColumn():
         # Maak de colom resizeable
         self._master.columnconfigure(column, weight=1)
 
+    def getZet(self, state):
+        return None
+
     def zet(self):
         self._zetten.set(self._zetten.get() + 1)
 
     def start(self):
-        pass
+        self._ent_name.config(state=tk.DISABLED)
 
     def focus(self):
         self._ent_name.focus_set()
 
+    @property
+    def human(self):
+        return self._human
 
-class SpelerColumn(_BaseColumn):
+    @property
+    def name(self):
+        return self._name.get()
+
+
+class Speler(_BaseColumn):
     """Frame voor een speler"""
-
-    def start(self):
-        self._ent_name.config(state=tk.DISABLED)
-
-
-class AIColumn(_BaseColumn):
-    """Frame voor een AI"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Een speler is weldegelijk een mens en zal dus wachten op user input
+        self._human = True
 
-        self._ent_name.config(state=tk.DISABLED)
+        # Enable de name entry
+        self._ent_name.config(state=tk.NORMAL)
 
     def start(self):
-        self.name.set('Hall')
+        self._ent_name.config(state=tk.DISABLED)
+
+
+class RandomAI(_BaseColumn):
+    """Een AI die willekeurige zetten doet"""
+
+    def start(self):
+        self._name.set('Hall')
 
     def getZet(self, state):
-        # TODO: Bereken volgende zet en return (key, amount)
-        pass
+        return (0, 1)

@@ -135,9 +135,9 @@ class Heap(tk.Frame):
                                     state=tk.DISABLED)
 
         # Inputveld
-        self.strInput = tk.StringVar()
+        self._strInput = tk.StringVar()
         self._ent_input = tk.Entry(self,
-                                   textvariable=self.strInput,
+                                   textvariable=self._strInput,
                                    state=tk.DISABLED,
                                    validate="key",
                                    validatecommand=vcmd)
@@ -155,14 +155,14 @@ class Heap(tk.Frame):
         self._tokens.set(random.randint(MIN, MAX))
 
         # Reset the input
-        self.strInput.set(0)
+        self._strInput.set(0)
 
         self.enable()
 
     def zet(self, amount):
-        if amount < 0:
+        if amount <= 0:
             self.focus()
-            raise ValueError("Je kan geen negatief getal nemen!")
+            raise ValueError("Je moet minstens 1 nemen!")
 
         if amount > self.tokens:
             self.focus()
@@ -193,11 +193,11 @@ class Heap(tk.Frame):
 
     @property
     def input(self):
-        return self.strInput.get()
+        return self._strInput.get()
 
     @input.setter
     def input(self, val):
-        self.strInput.set(int(val))
+        self._strInput.set(int(val))
 
     @property
     def disabled(self):

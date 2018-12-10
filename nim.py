@@ -51,20 +51,59 @@ class Main(tk.Tk):
 
         self._midFrame.focus()
 
+        self._spelers = self._topFrame.spelers()
+
+        # Zet de eerste speler aan beurt
+        self._curspeler = next(self._spelers)
+
     def zet(self):
-        print("zet")
+        print('zet')
+        # Loop tot een mens aan de beurt is
+        # Of totdat iemand verloren is
+        while True:
+            print(self._curspeler.name, 'is aan beurt')
 
-        try:
-            zet = self._midFrame.getZet()
+            # Haal de gamestate binnen
 
-            self._midFrame.zet(zet)
+            # als het een mens is
+            if self._curspeler.human:
+                try:
+                    zet = self._midFrame.getZet()
+                    self._midFrame.zet(zet)
 
-        except ValueError as e:
-            messagebox.showwarning(title='Fout!', message=e)
-            return
+                except ValueError as error:
+                    # Laat de error zien in een warning
+                    messagebox.showwarning(self._curspeler.name, error)
 
-        self._topFrame.spelers[0].zet()
-        self._midFrame.focus()
+                    # Stop de loop zodat de speler opnieuw kan proberen
+                    break
+            else:
+                zet = self._curspeler.getZet(self._midFrame.state)
+
+                try:
+                    self._midFrame.zet(zet)
+
+                except ValueError as error:
+                    # Laat de error zien in een warning
+                    messagebox.showerror(self._curspeler.name, error)
+
+                    # Stop het spel want een AI kan niet opnieuw proberen
+                    self.quit()
+
+            if not any(self._midFrame.state):
+                winMessage = '{:s} is verloren...'.format(
+                    self._curspeler.name)
+                messagebox.showinfo('Verloren', winMessage)
+
+                # Stop het spel
+                self.stop()
+
+            # Zet de volgende speler aan beurt:
+            self._curspeler = next(self._spelers)
+
+            # Breek uit de loop als het een mens is:
+            if self._curspeler.human:
+                break
 
     def stop(self):
         print("Stoppen...")
@@ -87,8 +126,8 @@ class TopFrame(tk.Frame):
 
         # TODO: Splits Speler en AI arrays
         if not spelers:
-            self._spelers = [player.SpelerColumn(self, 'Speler'),
-                             player.AIColumn(self, 'AI')]
+            self._spelers = [player.Speler(self, 'Speler'),
+                             player.RandomAI(self, 'AI')]
         else:
             self._spelers = spelers
 
@@ -103,9 +142,15 @@ class TopFrame(tk.Frame):
     def focus(self, key=0):
         self._spelers[key].focus()
 
+    # Eindeloze generator met alle spelers op volgorde
     @property
     def spelers(self):
-        return self._spelers.copy()
+        def generator():
+            while True:
+                for speler in self._spelers:
+                    yield speler
+
+        return generator
 
 
 class BtnFrame(tk.Frame):
