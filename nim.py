@@ -78,6 +78,7 @@ class Main(tk.Tk):
                     # Stop de loop zodat de speler opnieuw kan proberen
                     break
             else:
+                # TODO: Better error handling and traceback printing
                 zet = self._curspeler.getZet(self._midFrame.state)
 
                 try:

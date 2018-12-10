@@ -93,5 +93,6 @@ class RandomAI(_BaseColumn):
         self._name.set('Hall')
 
     def getZet(self, state):
+        # TODO: Program AI
         # Test zet (kan errors creëren)
         return (0, 1)
