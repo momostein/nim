@@ -105,6 +105,8 @@ class Main(tk.Tk):
 
             # Breek uit de loop als het een mens is:
             if self._curspeler.human:
+                # TODO: Player highlighting?
+
                 # Zet ook de focus terug op de inputs
                 self._midFrame.focus()
                 break
