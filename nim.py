@@ -57,7 +57,7 @@ class Main(tk.Tk):
         self._curspeler = next(self._spelers)
 
     def zet(self):
-        print('zet')
+
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
@@ -95,14 +95,17 @@ class Main(tk.Tk):
                     self._curspeler.name)
                 messagebox.showinfo('Verloren', winMessage)
 
-                # Stop het spel
+                # Stop het spel en breek uit de loop
                 self.stop()
+                break
 
             # Zet de volgende speler aan beurt:
             self._curspeler = next(self._spelers)
 
             # Breek uit de loop als het een mens is:
             if self._curspeler.human:
+                # Zet ook de focus terug op de inputs
+                self._midFrame.focus()
                 break
 
     def stop(self):
