@@ -38,6 +38,7 @@ class Main(tk.Tk):
         self._midFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
         self._botFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
 
+        # Maak de colom resizeable
         self.columnconfigure(0, weight=1)
 
         # Zet de focus op de eerste name entry
@@ -126,6 +127,7 @@ class BtnFrame(tk.Frame):
         self._btn_stop.grid(row=0, column=2, padx=2, pady=2, sticky="nesw")
 
         for x in range(3):
+            # Maak de colom resizeable
             self.columnconfigure(x, weight=1)
 
     def start(self):

@@ -17,6 +17,7 @@ class HeapFrame(tk.Frame):
         # Maak een lijst en vul hem met stapels
         self._heaps = []
 
+        # Registreer de validatiefunctie
         vcmd = (self.register(self.onValidate),
                 '%d', '%P', '%S')
 
@@ -26,6 +27,8 @@ class HeapFrame(tk.Frame):
 
             # Zet hem in de grid
             heap.grid(column=i, row=0, padx=2, pady=2, sticky='nesw')
+
+            # Maak de colom resizeable
             self.columnconfigure(i, weight=1)
 
             # Voeg hem toe aan de lijst
@@ -42,7 +45,9 @@ class HeapFrame(tk.Frame):
         heapKey = -1
         amount = -1
 
+        # Get the input of every heap
         for i, heap in enumerate(self._heaps):
+            # Kijk na of de input een positieve integer is
             try:
                 val = int(heap.input)
                 inputs.append(val)
@@ -72,13 +77,16 @@ class HeapFrame(tk.Frame):
 
     def focus(self, key=0):
 
+        # Focus the first enabled heap starting from key
         for heap in self._heaps[key:]:
             if not heap.disabled:
                 heap.focus()
                 return True
         else:
+            # Return false if none are enabled starting from key
             return False
 
+    # validatiefunctie om alleen nummers toe te laten
     def onValidate(self, d, P, S):
         # %d = Type of action (1=insert, 0=delete, -1 for others)
         # %P = value of the entry if the edit is allowed
@@ -139,11 +147,16 @@ class Heap(tk.Frame):
         self._ent_tokens.grid(row=1, sticky='nesw')
         self._ent_input.grid(row=2, sticky='nesw')
 
+        # Maak de colom resizeable
         self.columnconfigure(0, weight=1)
 
     def start(self):
+        # Vul een willekeurige hoeveelheid tokens in
         self._tokens.set(random.randint(MIN, MAX))
+
+        # Reset the input
         self.strInput.set(0)
+
         self.enable()
 
     def zet(self, amount):

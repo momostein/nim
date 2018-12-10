@@ -26,6 +26,7 @@ class BaseColumn():
         self._ent_name.grid(row=1, column=column, padx=2, sticky='nesw')
         self._ent_zetten.grid(row=2, column=column, padx=2, sticky='nesw')
 
+        # Maak de colom resizeable
         master.columnconfigure(column, weight=1)
 
     def zet(self):
@@ -55,3 +56,7 @@ class AIColumn(BaseColumn):
 
     def start(self):
         self.name.set('Hall')
+
+    def getZet(self, state):
+        # TODO: Bereken volgende zet en return (key, amount)
+        pass
