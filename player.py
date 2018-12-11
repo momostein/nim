@@ -25,6 +25,8 @@ class _BaseColumn():
                                   textvariable=self._name,
                                   state=tk.DISABLED)
 
+        self._enabled = False
+
         # Aantal zetten
         self._zetten = tk.IntVar(value=0)
         self._ent_zetten = tk.Entry(master,
@@ -58,6 +60,8 @@ class _BaseColumn():
         self._setName()
 
         self._ent_name.config(state=tk.DISABLED)
+        self._enabled = False
+
         self._playercount = playercount
 
     def focus(self):
@@ -78,6 +82,10 @@ class _BaseColumn():
     def title(self):
         return self._title
 
+    @property
+    def enabled(self):
+        return self._enabled
+
     # Private functie die de naam eventueel veranderd
     def _setName(self):
         pass
@@ -93,6 +101,7 @@ class Speler(_BaseColumn):
 
         # Enable de name entry
         self._ent_name.config(state=tk.NORMAL)
+        self._enabled = True
 
 
 class RandomAI(_BaseColumn):

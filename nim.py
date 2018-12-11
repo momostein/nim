@@ -66,6 +66,8 @@ class Main(tk.Tk):
 
         # Zet de eerste speler aan beurt
         self._curspeler = next(self._spelers)
+        if not self._curspeler.human:
+            self.zet()
 
     def zet(self):
 
@@ -177,7 +179,12 @@ class TopFrame(tk.Frame):
             speler.start(playercount)
 
     def focus(self, key=0):
-        self._spelers[key].focus()
+        for speler in self._spelers[key:]:
+            if speler.enabled:
+                speler.focus()
+                return True
+
+        return False
 
     # Eindeloze generator met alle spelers op volgorde
     @property
