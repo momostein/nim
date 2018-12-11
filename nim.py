@@ -12,11 +12,11 @@ HEAPS = 3
 
 PLAYERS = [
     {
-        'name': 'Player',
+        'title': 'Player',
         'class': player.Speler
     },
     {
-        'name': 'AI',
+        'title': 'AI',
         'class': player.RandomAI
     }
 ]
@@ -144,14 +144,14 @@ class TopFrame(tk.Frame):
         self._lbl_top_naam.grid(row=1, sticky=tk.W)
         self._lbl_top_zetten.grid(row=2, sticky=tk.W)
 
-        # TODO: Splits Speler en AI arrays
         if not spelers:
             self._spelers = [player.Speler(self, 'Speler'),
                              player.RandomAI(self, 'AI')]
+
         else:
             self._spelers = []
             for speler in spelers:
-                name = speler['name']
+                name = speler['title']
                 _class = speler['class']
 
                 self._spelers.append(_class(self, name))
