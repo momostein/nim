@@ -134,3 +134,6 @@ class RandomAI(_BaseColumn):
         index, tokens = random.choice(heaps)
 
         return (index, random.randint(1, tokens))
+
+
+# TODO: Better AI?
