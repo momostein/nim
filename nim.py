@@ -10,6 +10,17 @@ import heap
 
 HEAPS = 3
 
+PLAYERS = [
+    {
+        'name': 'Player',
+        'class': player.Speler
+    },
+    {
+        'name': 'AI',
+        'class': player.RandomAI
+    }
+]
+
 
 class Main(tk.Tk):
     """Main window"""
@@ -25,7 +36,7 @@ class Main(tk.Tk):
         self.resizable(True, False)
 
         # Bovenste Frame met spelers en hun labels
-        self._topFrame = TopFrame(self)
+        self._topFrame = TopFrame(self, PLAYERS)
 
         # Middenste Frame met alle stapels
         self._midFrame = heap.HeapFrame(self, HEAPS)
@@ -138,7 +149,12 @@ class TopFrame(tk.Frame):
             self._spelers = [player.Speler(self, 'Speler'),
                              player.RandomAI(self, 'AI')]
         else:
-            self._spelers = spelers
+            self._spelers = []
+            for speler in spelers:
+                name = speler['name']
+                _class = speler['class']
+
+                self._spelers.append(_class(self, name))
 
         for i, speler in enumerate(self._spelers, start=1):
             speler.grid(i)
