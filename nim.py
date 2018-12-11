@@ -185,7 +185,9 @@ class TopFrame(tk.Frame):
         def generator():
             while True:
                 for speler in self._spelers:
+                    # TODO: highlighting here?
                     yield speler
+                    speler.zet()
 
         return generator
 
