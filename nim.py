@@ -113,6 +113,9 @@ class Main(tk.Tk):
 
     def stop(self):
         print("Stoppen...")
+
+        # TODO: Don't quit the program, but reset it to the initial state
+
         self.quit()
 
 

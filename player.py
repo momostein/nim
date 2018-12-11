@@ -2,6 +2,7 @@
 # Brecht Ooms / 2 ELO-ICT / 2018
 
 import tkinter as tk
+import random
 
 
 class _BaseColumn():
@@ -93,6 +94,17 @@ class RandomAI(_BaseColumn):
         self._name.set('Hall')
 
     def getZet(self, state):
-        # TODO: Program AI
-        # Test zet (kan errors creëren)
-        return (0, 1)
+        heaps = []
+
+        for heap in enumerate(state):
+
+            # Als de stapel niet leeg is
+            if heap[1] > 0:
+                heaps.append(heap)
+
+        if len(heaps) == 0:
+            raise ValueError("Alle stapels zijn leeg!")
+
+        index, tokens = random.choice(heaps)
+
+        return (index, random.randint(1, tokens))
