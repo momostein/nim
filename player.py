@@ -66,9 +66,6 @@ class _BaseColumn():
     def __str__(self):
         return "{0.title:s}: {0.name:s}".format(self)
 
-    def __format__(self, format_spec):
-        return self.__str__()
-
     @property
     def human(self):
         return self._human

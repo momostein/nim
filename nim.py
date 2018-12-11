@@ -104,7 +104,7 @@ class Main(tk.Tk):
 
             if not any(self._midFrame.state):
                 winMessage = '{:s} is verloren...'.format(
-                    self._curspeler)
+                    str(self._curspeler))
                 messagebox.showinfo('Verloren', winMessage)
 
                 # Stop het spel en breek uit de loop
