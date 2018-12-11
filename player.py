@@ -133,7 +133,79 @@ class RandomAI(_BaseColumn):
 
         index, tokens = random.choice(heaps)
 
-        return (index, random.randint(1, tokens))
+        return index, random.randint(1, tokens)
 
 
-# TODO: Better AI?
+class NimSumAI(_BaseColumn):
+    """Een AI die de zoegenoemde nim sum gebruikt om te winnen.
+    Werkt wel alleen maar met 2 spelers..."""
+
+    def _setName(self):
+        with open('aiNames.txt') as f:
+            names = list(f)
+
+        self._name.set(random.choice(names).strip())
+
+    def start(self, playercount=-1):
+        if playercount != 2:
+            print("Warning!: NimSumAI may only work with 2 players!")
+
+        super().start(playercount)
+
+    def getZet(self, state):
+
+        # Kijk of we in de end-game zijn (max 1 stapel met 2+ tokens)
+        if sum((1 for x in state if x > 1)) <= 1:
+            print("End game")
+            return self._endGame(state)
+
+        nimSum = 0
+        for heap in state:
+            # Bereken nim sum (bitwise XOR)
+            nimSum = nimSum ^ heap
+
+        print(nimSum)
+
+        if nimSum == 0:
+            # kan normaal niet winnen, neem van random stapel
+            return self._randomZet(state)
+
+        for index, heap in enumerate(state):
+            target = heap ^ nimSum
+
+            if target < heap:
+                amount = heap - target
+                return index, amount
+
+    def _endGame(self, state):
+        # 1 if odd, 0 if even
+        odd = sum(1 for x in state if x > 0) % 2
+
+        bigHeap = max(state)
+        bigIndex = state.index(bigHeap)
+
+        # Remove whole stack if even, leave 1 if odd
+        amount = bigHeap - odd
+
+        # Can't take 0
+        if amount < 1:
+            amount = 1
+
+        return (bigIndex, amount)
+
+    def _randomZet(self, state):
+        # Neem één token van een willekeurige stapel
+        heaps = []
+
+        for index, heap in enumerate(state):
+
+            # Als de stapel niet leeg is
+            if heap > 0:
+                heaps.append(index)
+
+        if len(heaps) == 0:
+            raise ValueError("Alle stapels zijn leeg!")
+
+        index = random.choice(heaps)
+
+        return index, 1
