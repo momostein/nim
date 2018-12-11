@@ -116,6 +116,7 @@ class Main(tk.Tk):
 
                     # Stop het spel want een AI kan niet opnieuw proberen
                     self.quit()
+                    break
 
             if not any(self._midFrame.state):
                 winMessage = '{:s} is verloren...'.format(
