@@ -72,7 +72,7 @@ class Main(tk.Tk):
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
-            print(self._curspeler.name, 'is aan beurt')
+            print(self._curspeler, 'is aan beurt')
 
             # Haal de gamestate binnen
 
@@ -84,7 +84,7 @@ class Main(tk.Tk):
 
                 except ValueError as error:
                     # Laat de error zien in een warning
-                    messagebox.showwarning(self._curspeler.name, error)
+                    messagebox.showwarning(self._curspeler, error)
 
                     # Stop de loop zodat de speler opnieuw kan proberen
                     break
@@ -97,14 +97,14 @@ class Main(tk.Tk):
 
                 except ValueError as error:
                     # Laat de error zien in een warning
-                    messagebox.showerror(self._curspeler.name, error)
+                    messagebox.showerror(self._curspeler, error)
 
                     # Stop het spel want een AI kan niet opnieuw proberen
                     self.quit()
 
             if not any(self._midFrame.state):
                 winMessage = '{:s} is verloren...'.format(
-                    self._curspeler.name)
+                    self._curspeler)
                 messagebox.showinfo('Verloren', winMessage)
 
                 # Stop het spel en breek uit de loop

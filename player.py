@@ -8,15 +8,16 @@ import random
 class _BaseColumn():
     """Basisframe voor een speler/AI"""
 
-    def __init__(self, master=None, label='Leeg'):
+    def __init__(self, master=None, title='Leeg'):
         self._master = master
+        self._title = title
 
         # True: wacht voor user input (Speler)
         # False: Speel automatisch (AI)
         self._human = False
 
         # Label bovenaan
-        self._lbl_label = tk.Label(master, text=label)
+        self._lbl_label = tk.Label(master, text=self._title)
 
         self._name = tk.StringVar()
         self._name.set("")
@@ -62,6 +63,12 @@ class _BaseColumn():
     def focus(self):
         self._ent_name.focus_set()
 
+    def __str__(self):
+        return "{0.title:s}: {0.name:s}".format(self)
+
+    def __format__(self, format_spec):
+        return self.__str__()
+
     @property
     def human(self):
         return self._human
@@ -69,6 +76,10 @@ class _BaseColumn():
     @property
     def name(self):
         return self._name.get()
+
+    @property
+    def title(self):
+        return self._title
 
     # Private functie die de naam eventueel veranderd
     def _setName(self):
