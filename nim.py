@@ -74,8 +74,6 @@ class Main(tk.Tk):
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
-            print('\n{:s} is aan beurt'.format(str(self._curspeler)))
-
             # als het een mens is
             if self._curspeler.human:
                 try:
@@ -137,11 +135,13 @@ class Main(tk.Tk):
                 break
 
     def stop(self):
-        print("Stoppen...")
+        print("Resetting...")
 
-        # TODO: Don't quit the program, but reset it to the initial state
+        self._topFrame.reset()
+        self._midFrame.reset()
+        self._botFrame.reset()
 
-        self.quit()
+        self._topFrame.focus()
 
 
 class TopFrame(tk.Frame):
@@ -178,6 +178,10 @@ class TopFrame(tk.Frame):
         for speler in self._spelers:
             speler.start(playercount)
 
+    def reset(self):
+        for speler in self._spelers:
+            speler.reset()
+
     def focus(self, key=0):
         for speler in self._spelers[key:]:
             if speler.enabled:
@@ -193,6 +197,7 @@ class TopFrame(tk.Frame):
             while True:
                 for speler in self._spelers:
                     # TODO: highlighting here?
+                    print('\n{:s} is aan beurt'.format(str(speler)))
                     yield speler
                     speler.zet()
 
@@ -230,6 +235,9 @@ class BtnFrame(tk.Frame):
 
     def start(self):
         self._btn_zet.config(state=tk.NORMAL)
+
+    def reset(self):
+        self._btn_zet.config(state=tk.DISABLED)
 
 
 if __name__ == "__main__":

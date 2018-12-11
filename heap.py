@@ -38,6 +38,10 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.start()
 
+    def reset(self):
+        for heap in self._heaps:
+            heap.reset()
+
     def getZet(self):
         inputs = []
         moreThanZero = 0
@@ -79,7 +83,7 @@ class HeapFrame(tk.Frame):
 
         # Focus the first enabled heap starting from key
         for heap in self._heaps[key:]:
-            if not heap.disabled:
+            if heap.enabled:
                 heap.focus()
                 return True
         else:
@@ -126,7 +130,7 @@ class Heap(tk.Frame):
         super().__init__(master)
 
         self._title = title
-        self._disabled = True
+        self._enabled = False
 
         # Titel van de stapel
         self._lbl_title = tk.Label(self,
@@ -163,6 +167,11 @@ class Heap(tk.Frame):
 
         self.enable()
 
+    def reset(self):
+        self._tokens.set(0)
+        self._strInput.set("")
+        self.disable()
+
     def zet(self, amount):
         if amount <= 0:
             self.focus()
@@ -185,11 +194,11 @@ class Heap(tk.Frame):
 
     def disable(self):
         self._ent_input.config(state=tk.DISABLED)
-        self._disabled = True
+        self._enabled = False
 
     def enable(self):
         self._ent_input.config(state=tk.NORMAL)
-        self._disabled = False
+        self._enabled = True
 
     @property
     def tokens(self):
@@ -200,8 +209,8 @@ class Heap(tk.Frame):
         return self._title
 
     @property
-    def disabled(self):
-        return self._disabled
+    def enabled(self):
+        return self._enabled
 
     @property
     def input(self):

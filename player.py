@@ -64,6 +64,10 @@ class _BaseColumn():
 
         self._playercount = playercount
 
+    def reset(self):
+        self._zetten.set(0)
+        self._name.set("")
+
     def focus(self):
         self._ent_name.focus_set()
 
@@ -100,6 +104,11 @@ class Speler(_BaseColumn):
         self._human = True
 
         # Enable de name entry
+        self._ent_name.config(state=tk.NORMAL)
+        self._enabled = True
+
+    def reset(self):
+        super().reset()
         self._ent_name.config(state=tk.NORMAL)
         self._enabled = True
 
