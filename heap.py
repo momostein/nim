@@ -114,6 +114,10 @@ class HeapFrame(tk.Frame):
     def state(self):
         return [heap.tokens for heap in self._heaps]
 
+    @property
+    def titles(self):
+        return [heap.title for heap in self._heaps]
+
 
 class Heap(tk.Frame):
     """Een frame voor een stapel"""
@@ -126,7 +130,7 @@ class Heap(tk.Frame):
 
         # Titel van de stapel
         self._lbl_title = tk.Label(self,
-                                   text=title)
+                                   text=self._title)
 
         # Aantal Balletjes
         self._tokens = tk.IntVar()
@@ -192,13 +196,17 @@ class Heap(tk.Frame):
         return self._tokens.get()
 
     @property
+    def title(self):
+        return self._title
+
+    @property
+    def disabled(self):
+        return self._disabled
+
+    @property
     def input(self):
         return self._strInput.get()
 
     @input.setter
     def input(self, val):
         self._strInput.set(int(val))
-
-    @property
-    def disabled(self):
-        return self._disabled

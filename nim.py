@@ -99,6 +99,13 @@ class Main(tk.Tk):
                                                                     zet))
                 try:
                     self._midFrame.zet(zet)
+                    title = self._midFrame.titles[zet[0]]
+
+                    # TODO: Meervoud/enkelvoud tokens
+                    message = "{:s} neemt {:d} token(s) van {:s}".format(str(self._curspeler),
+                                                                         zet[1],
+                                                                         title)
+                    messagebox.showinfo(self._curspeler, message)
 
                 except ValueError as error:
                     # Laat de error zien in een warning
