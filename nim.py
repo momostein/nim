@@ -72,7 +72,7 @@ class Main(tk.Tk):
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
-            print('\n{:s} is aan beurt'.format(self._curspeler))
+            print('\n{:s} is aan beurt'.format(str(self._curspeler)))
 
             # als het een mens is
             if self._curspeler.human:
