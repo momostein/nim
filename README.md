@@ -10,6 +10,6 @@ Why i only use one underscore instead of two for non-public attributes:
 
 example:
 ```python
-foo._nonPublic # Instead of
-foo.__nonPublic
+Foo._nonPublic   # Instead of
+Foo.__nonPublic  # Will actually be Foo._Foo__nonPublic
 ```
