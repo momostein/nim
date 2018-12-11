@@ -72,14 +72,17 @@ class Main(tk.Tk):
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
-            print(self._curspeler, 'is aan beurt')
-
-            # Haal de gamestate binnen
+            print('\n{:s} is aan beurt'.format(self._curspeler))
 
             # als het een mens is
             if self._curspeler.human:
                 try:
                     zet = self._midFrame.getZet()
+
+                    print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
+                                                                        str(self._curspeler),
+                                                                        zet))
+
                     self._midFrame.zet(zet)
 
                 except ValueError as error:
@@ -89,9 +92,11 @@ class Main(tk.Tk):
                     # Stop de loop zodat de speler opnieuw kan proberen
                     break
             else:
-                # TODO: Better error handling and traceback printing
                 zet = self._curspeler.getZet(self._midFrame.state)
 
+                print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
+                                                                    str(self._curspeler),
+                                                                    zet))
                 try:
                     self._midFrame.zet(zet)
 
