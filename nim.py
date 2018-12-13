@@ -161,8 +161,6 @@ class Main(tk.Tk):
 
             # Breek uit de loop als het een mens is:
             if self._curspeler.human:
-                # TODO: Player highlighting?
-
                 # Zet ook de focus terug op de inputs
                 self._midFrame.focus()
                 break
@@ -232,7 +230,7 @@ class TopFrame(tk.Frame):
         def generator():
             while True:
                 for speler in self._spelers:
-                    # TODO: highlighting hier?
+                    # TODO: Player highlighting
                     print('\n{:s} is aan beurt'.format(str(speler)))
                     yield speler
                     speler.zet()
