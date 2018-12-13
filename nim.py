@@ -21,7 +21,7 @@ PLAYERS = gamemodes.DEFAULT
 HEAPS = 3
 
 # Meld de zetten van de AI's
-SHOWAIMOVE = False
+SHOWAIMOVE = True
 
 
 class Main(tk.Tk):
