@@ -6,21 +6,17 @@ from tkinter import messagebox
 import os
 
 import player
+import gamemodes
 import heap
 
 HEAPS = 3
 
-PLAYERS = [
-    {
-        'title': 'Player',
-        'class': player.Speler
-    },
-    {
-        'title': 'AI',
-        'class': player.RandomAI
-    }
-]
-
+# Mogelijke spelmodi:
+# DEFAULT:  Player      vs   Random AI
+# NIMSUM:   Player      vs   Hard AI
+# PVP:      Player      vs   Player
+# AIVAI:    Random AI   vs   Hard AI
+PLAYERS = gamemodes.DEFAULT
 
 
 class Main(tk.Tk):
@@ -149,7 +145,7 @@ class Main(tk.Tk):
 class TopFrame(tk.Frame):
     """Bovenste frame met de speler en de AI"""
 
-    def __init__(self, master=None, spelers=None):
+    def __init__(self, master=None, spelers=gamemodes.DEFAULT):
         super().__init__(master)
 
         # Maak de labels
@@ -160,20 +156,15 @@ class TopFrame(tk.Frame):
         self._lbl_top_naam.grid(row=1, sticky=tk.W)
         self._lbl_top_zetten.grid(row=2, sticky=tk.W)
 
-        if not spelers:
-            self._spelers = [player.Speler(self, 'Speler'),
-                             player.RandomAI(self, 'AI')]
+        self._spelers = []
+        for i, spelerDict in enumerate(spelers, start=1):
+            name = spelerDict['title']
+            spelerClass = spelerDict['class']
 
-        else:
-            self._spelers = []
-            for speler in spelers:
-                name = speler['title']
-                _class = speler['class']
-
-                self._spelers.append(_class(self, name))
-
-        for i, speler in enumerate(self._spelers, start=1):
+            speler = spelerClass(self, name)
             speler.grid(i)
+
+            self._spelers.append(speler)
 
     def start(self):
         playercount = len(self._spelers)
