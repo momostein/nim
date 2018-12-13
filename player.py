@@ -23,7 +23,8 @@ class _BaseColumn():
         self._name.set("")
         self._ent_name = tk.Entry(master,
                                   textvariable=self._name,
-                                  state=tk.DISABLED)
+                                  state="readonly",
+                                  takefocus=False)
 
         self._enabled = False
 
@@ -31,7 +32,8 @@ class _BaseColumn():
         self._zetten = tk.IntVar(value=0)
         self._ent_zetten = tk.Entry(master,
                                     textvariable=self._zetten,
-                                    state=tk.DISABLED)
+                                    state="readonly",
+                                    takefocus=False)
 
     def grid(self, column=0, row=0):
         # Zet alle widgets in de juiste column
@@ -59,7 +61,7 @@ class _BaseColumn():
     def start(self, playercount=-1):
         self._setName()
 
-        self._ent_name.config(state=tk.DISABLED)
+        self._ent_name.config(state="readonly", takefocus=False)
         self._enabled = False
 
         self._zetten.set(0)
@@ -105,12 +107,12 @@ class Speler(_BaseColumn):
         self._human = True
 
         # Enable de name entry
-        self._ent_name.config(state=tk.NORMAL)
+        self._ent_name.config(state=tk.NORMAL, takefocus=True)
         self._enabled = True
 
     def reset(self):
         super().reset()
-        self._ent_name.config(state=tk.NORMAL)
+        self._ent_name.config(state=tk.NORMAL, takefocus=True)
         self._enabled = True
 
 

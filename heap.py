@@ -140,7 +140,8 @@ class Heap(tk.Frame):
         self._tokens = tk.IntVar()
         self._ent_tokens = tk.Entry(self,
                                     textvariable=self._tokens,
-                                    state=tk.DISABLED)
+                                    state="readonly",
+                                    takefocus=False)
 
         # Inputveld
         self._strInput = tk.StringVar()
