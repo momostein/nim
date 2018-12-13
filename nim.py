@@ -9,14 +9,16 @@ import player
 import gamemodes
 import heap
 
-HEAPS = 3
-
 # Mogelijke spelmodi:
-# DEFAULT:  Player      vs   Random AI
-# NIMSUM:   Player      vs   Hard AI
-# PVP:      Player      vs   Player
-# AIVAI:    Random AI   vs   Hard AI
+# DEFAULT:  Player      vs  Random AI
+# NIMSUM:   Player      vs  Hard AI
+# PVP:      Player      vs  Player
+# AIVAI:    Random AI   vs  Hard AI
+# ALL:      Speler      vs  Random AI   vs  Hard AI
 PLAYERS = gamemodes.DEFAULT
+
+# Aantal stapels
+HEAPS = 3
 
 
 class Main(tk.Tk):

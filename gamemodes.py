@@ -33,7 +33,7 @@ NIMSUM = [
         'class': player.Speler
     },
     {
-        'title': 'AI',
+        'title': 'Hard AI',
         'class': player.NimSumAI
     }
 ]
@@ -45,7 +45,24 @@ AIVAI = [
         'class': player.RandomAI
     },
     {
-        'title': 'Nim-sum AI',
+        'title': 'Hard AI',
+        'class': player.NimSumAI
+    }
+
+]
+
+# Speler vs Random AI vs Hard AI
+ALL = [
+    {
+        'title': 'Player',
+        'class': player.Speler
+    },
+    {
+        'title': 'AI',
+        'class': player.RandomAI
+    },
+    {
+        'title': 'Hard AI',
         'class': player.NimSumAI
     }
 
