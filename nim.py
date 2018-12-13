@@ -21,7 +21,10 @@ PLAYERS = gamemodes.DEFAULT
 HEAPS = 3
 
 # Meld de zetten van de AI's
-SHOWAIMOVE = True
+SHOWAIMOVE = False
+
+
+# TODO: Meer comments
 
 
 class Main(tk.Tk):
@@ -29,6 +32,10 @@ class Main(tk.Tk):
 
     def __init__(self):
         super().__init__()
+
+        # Attributes
+        self._spelers = None
+        self._curspeler = None
 
         # Titel en icoontje
         self.title("NIM")
@@ -51,11 +58,13 @@ class Main(tk.Tk):
         self._midFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
         self._botFrame.grid(column=0, padx=5, pady=5, sticky="nesw")
 
-        # Maak de colom resizeable
+        # Maak de kolom resizeable
         self.columnconfigure(0, weight=1)
 
-        # Zet de focus op de eerste name entry
-        self._topFrame.focus()
+        # Zet de focus op het eerste open naamvak van de speler
+        if not self._topFrame.focus():
+            # Zet de focus op de nieuwknop als geen naamvakken enabled zijn
+            self._botFrame.focus_nieuw()
 
     def nieuw(self):
         # Start alle frames op
@@ -85,7 +94,7 @@ class Main(tk.Tk):
 
                 try:
                     # Vraag de inputs op
-                    zet = self._midFrame.getZet()
+                    zet = self._midFrame.get_zet()
 
                     # Geef de state, speler en zet weer in de CLI
                     print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
@@ -104,7 +113,7 @@ class Main(tk.Tk):
 
             else:
                 # Vraag de zet op van de AI
-                zet = self._curspeler.getZet(self._midFrame.state)
+                zet = self._curspeler.get_zet(self._midFrame.state)
 
                 # Geef de state, speler en zet weer in de CLI
                 print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
@@ -146,11 +155,11 @@ class Main(tk.Tk):
                 self._curspeler.zet()
 
                 # Bouw het bericht op
-                winMessage = '{:s} is verloren...'.format(
+                win_message = '{:s} is verloren...'.format(
                     str(self._curspeler))
 
                 # Geef het bericht weer
-                messagebox.showinfo('Verloren', winMessage)
+                messagebox.showinfo('Verloren', win_message)
 
                 # Stop het spel en breek uit de loop
                 self.stop()
@@ -174,9 +183,8 @@ class Main(tk.Tk):
         self._botFrame.reset()
 
         # Zet de focus op het eerste open naamvak van de speler
-        self._topFrame.focus()
-
-        # TODO: Zet de focus op de nieuwknop als geen spelers enabled zijn
+        if not self._topFrame.focus():
+            self._botFrame.focus_nieuw()
 
 
 class TopFrame(tk.Frame):
@@ -198,10 +206,10 @@ class TopFrame(tk.Frame):
         for i, spelerDict in enumerate(spelers, start=1):
             # Extraheer de data
             name = spelerDict['title']
-            spelerClass = spelerDict['class']
+            speler_class = spelerDict['class']
 
             # Initializeer het type speler en zet hem in de grid
-            speler = spelerClass(self, name)
+            speler = speler_class(self, name)
             speler.grid(i)
 
             # Zet hem in de grid
@@ -264,7 +272,7 @@ class BtnFrame(tk.Frame):
         self._btn_stop.grid(row=0, column=2, padx=2, pady=2, sticky="nesw")
 
         for x in range(3):
-            # Maak de colom resizeable
+            # Maak de kolom resizeable
             self.columnconfigure(x, weight=1)
 
     def start(self):
@@ -272,6 +280,15 @@ class BtnFrame(tk.Frame):
 
     def reset(self):
         self._btn_zet.config(state=tk.DISABLED)
+
+    def focus_zet(self):
+        self._btn_zet.focus()
+
+    def focus_nieuw(self):
+        self._btn_nieuw.focus()
+
+    def focus_stop(self):
+        self._btn_stop.focus()
 
 
 if __name__ == "__main__":

@@ -5,12 +5,16 @@ import tkinter as tk
 import random
 
 
-class _BaseColumn():
+# TODO: Meer comments
+
+class _BaseColumn:
     """Basisframe voor een speler/AI"""
 
     def __init__(self, master=None, title='Leeg'):
+        # Attributes
         self._master = master
         self._title = title
+        self._playercount = -1
 
         # True: wacht voor user input (Speler)
         # False: Speel automatisch (AI)
@@ -48,17 +52,17 @@ class _BaseColumn():
                               column=column,
                               padx=2, sticky='nesw')
 
-        # Maak de colom resizeable
+        # Maak de kolom resizeable
         self._master.columnconfigure(column, weight=1)
 
-    def getZet(self, state):
+    def get_zet(self, state):
         return None
 
     def zet(self):
         self._zetten.set(self._zetten.get() + 1)
 
     def start(self, playercount=-1):
-        self._setName()
+        self._set_name()
 
         self._ent_name.config(state="readonly", takefocus=False)
         self._enabled = False
@@ -94,7 +98,7 @@ class _BaseColumn():
         return self._enabled
 
     # Private functie die de naam eventueel veranderd
-    def _setName(self):
+    def _set_name(self):
         pass
 
 
@@ -119,31 +123,18 @@ class Speler(_BaseColumn):
 class RandomAI(_BaseColumn):
     """Een AI die willekeurige zetten doet"""
 
-    def _setName(self):
+    def _set_name(self):
         self._name.set('Hall')
 
-    def getZet(self, state):
-        heaps = []
-
-        for heap in enumerate(state):
-
-            # Als de stapel niet leeg is
-            if heap[1] > 0:
-                heaps.append(heap)
-
-        if len(heaps) == 0:
-            raise ValueError("Alle stapels zijn leeg!")
-
-        index, tokens = random.choice(heaps)
-
-        return index, random.randint(1, tokens)
+    def get_zet(self, state):
+        return _random_zet(state)
 
 
 class NimSumAI(_BaseColumn):
     """Een AI die de zoegenoemde nim sum gebruikt om te winnen.
     Werkt wel alleen maar met 2 spelers..."""
 
-    def _setName(self):
+    def _set_name(self):
         with open('aiNames.txt') as f:
             names = list(f)
 
@@ -155,60 +146,64 @@ class NimSumAI(_BaseColumn):
 
         super().start(playercount)
 
-    def getZet(self, state):
+    def get_zet(self, state):
 
         # Kijk of we in de end-game zijn (max 1 stapel met 2+ tokens)
         if sum((1 for x in state if x > 1)) <= 1:
             print("End game")
-            return self._endGame(state)
+            return _endgame(state)
 
-        nimSum = 0
+        nim_sum = 0
         for heap in state:
             # Bereken nim sum (bitwise XOR)
-            nimSum = nimSum ^ heap
+            nim_sum = nim_sum ^ heap
 
-        print(nimSum)
+        print(nim_sum)
 
-        if nimSum == 0:
+        if nim_sum == 0:
             # kan normaal niet winnen, neem van random stapel
-            return self._randomZet(state)
+            return _random_zet(state)
 
         for index, heap in enumerate(state):
-            target = heap ^ nimSum
+            target = heap ^ nim_sum
 
             if target < heap:
                 amount = heap - target
                 return index, amount
 
-    def _endGame(self, state):
-        # 1 if odd, 0 if even
-        odd = sum(1 for x in state if x > 0) % 2
 
-        bigHeap = max(state)
-        bigIndex = state.index(bigHeap)
+def _endgame(state):
+    """Bepaalt de beste zet tijdens de endgame"""
 
-        # Remove whole stack if even, leave 1 if odd
-        amount = bigHeap - odd
+    # 1 if odd, 0 if even
+    odd = sum(1 for x in state if x > 0) % 2
 
-        # Can't take 0
-        if amount < 1:
-            amount = 1
+    big_heap = max(state)
+    big_index = state.index(big_heap)
 
-        return (bigIndex, amount)
+    # Remove whole stack if even, leave 1 if odd
+    amount = big_heap - odd
 
-    def _randomZet(self, state):
-        # Neem één token van een willekeurige stapel
-        heaps = []
+    # Can't take 0
+    if amount < 1:
+        amount = 1
 
-        for index, heap in enumerate(state):
+    return big_index, amount
 
-            # Als de stapel niet leeg is
-            if heap > 0:
-                heaps.append(index)
 
-        if len(heaps) == 0:
-            raise ValueError("Alle stapels zijn leeg!")
+def _random_zet(state):
+    """Neem een willekeurig aantal van een willekeurige stapel"""
+    heaps = []
 
-        index = random.choice(heaps)
+    for heap in enumerate(state):
 
-        return index, 1
+        # Als de stapel niet leeg is
+        if heap[1] > 0:
+            heaps.append(heap)
+
+    if len(heaps) == 0:
+        raise ValueError("Alle stapels zijn leeg!")
+
+    index, tokens = random.choice(heaps)
+
+    return index, random.randint(1, tokens)

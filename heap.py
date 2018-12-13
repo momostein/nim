@@ -4,6 +4,8 @@
 import tkinter as tk
 import random
 
+# TODO: Meer comments
+
 MIN = 1
 MAX = 9
 
@@ -18,7 +20,7 @@ class HeapFrame(tk.Frame):
         self._heaps = []
 
         # Registreer de validatiefunctie
-        vcmd = (self.register(self.onValidate),
+        vcmd = (self.register(validate),
                 '%d', '%P', '%S')
 
         for i in range(heaps):
@@ -42,10 +44,10 @@ class HeapFrame(tk.Frame):
         for heap in self._heaps:
             heap.reset()
 
-    def getZet(self):
-        moreThanZero = 0
+    def get_zet(self):
+        more_than_zero = 0
 
-        heapKey = -1
+        heap_key = -1
         amount = -1
 
         # Get the input of every heap
@@ -55,24 +57,24 @@ class HeapFrame(tk.Frame):
                 val = int(heap.input)
 
                 if val > 0:
-                    moreThanZero += 1
+                    more_than_zero += 1
 
-                    heapKey = i
+                    heap_key = i
                     amount = val
 
-            except ValueError as e:
+            except ValueError:
                 heap.focus()
                 raise ValueError('U moet geldige getallen ingeven!')
 
-        if moreThanZero == 0:
+        if more_than_zero == 0:
             self.focus()
             raise ValueError('U moet minstens één token nemen!')
 
-        if moreThanZero > 1:
+        if more_than_zero > 1:
             self.focus()
             raise ValueError('U mag maar van één stapel nemen!')
 
-        return (heapKey, amount)
+        return heap_key, amount
 
     def zet(self, zet):
         self._heaps[zet[0]].zet(zet[1])
@@ -87,30 +89,6 @@ class HeapFrame(tk.Frame):
         else:
             # Return false if none are enabled starting from key
             return False
-
-    # validatiefunctie om alleen nummers toe te laten
-    def onValidate(self, d, P, S):
-        # %d = Type of action (1=insert, 0=delete, -1 for others)
-        # %P = value of the entry if the edit is allowed
-        # %S = the text string being inserted or deleted, if any
-
-        # Validate als het een insert action is
-        if d == "1":
-            # Kijk na of de verandering bestaat uit digits
-            if not S.isdigit():
-                # Verwerp de verandering
-                return False
-
-            # Kijk na of we de hele input een integer is
-            try:
-                int(P)
-
-            except ValueError:
-                # Verwerp de verandering
-                return False
-
-        # Accepteer de verandering
-        return True
 
     @property
     def state(self):
@@ -218,3 +196,29 @@ class Heap(tk.Frame):
     @input.setter
     def input(self, val):
         self._strInput.set(int(val))
+
+
+def validate(action, edited, change):
+    """validatiefunctie om alleen nummers toe te laten"""
+
+    # action : Type of action (1=insert, 0=delete, -1 for others)
+    # edited : Value of the entry if the edit is allowed
+    # change : The text string being inserted or deleted, if an    y
+
+    # Validate als het een insert action is
+    if action == "1":
+        # Kijk na of de verandering bestaat uit digits
+        if not change.isdigit():
+            # Verwerp de verandering
+            return False
+
+        # Kijk na of we de hele input een integer is
+        try:
+            int(edited)
+
+        except ValueError:
+            # Verwerp de verandering
+            return False
+
+    # Accepteer de verandering
+    return True
