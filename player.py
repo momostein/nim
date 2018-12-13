@@ -5,7 +5,10 @@ import random
 import tkinter as tk
 
 DEFAULTCOLOR = 'SystemButtonFace'
+DEFAULTRELIEF = 'flat'
+
 HIGHLIGHTCOLOR = 'lawn green'
+HIGHLIGHTRELIEF = 'raised'
 
 # TODO: Meer comments
 
@@ -24,6 +27,7 @@ class _BaseColumn:
 
         # Label bovenaan
         self._lbl_title = tk.Label(master, text=self._title)
+        self.highlight(False)
 
         self._name = tk.StringVar()
         self._name.set("")
@@ -44,7 +48,7 @@ class _BaseColumn:
         # Zet alle widgets in de juiste column
         self._lbl_title.grid(row=row,
                              column=column,
-                             padx=2, pady=(0, 5),
+                             padx=2, pady=2,
                              sticky='nesw')
 
         self._ent_name.grid(row=row + 1,
@@ -92,9 +96,9 @@ class _BaseColumn:
 
     def highlight(self, flag=True):
         if flag:
-            self._lbl_title.config(bg=HIGHLIGHTCOLOR)
+            self._lbl_title.config(bg=HIGHLIGHTCOLOR, relief=HIGHLIGHTRELIEF)
         else:
-            self._lbl_title.config(bg=DEFAULTCOLOR)
+            self._lbl_title.config(bg=DEFAULTCOLOR, relief=DEFAULTRELIEF)
 
     @property
     def human(self):
