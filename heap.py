@@ -43,7 +43,6 @@ class HeapFrame(tk.Frame):
             heap.reset()
 
     def getZet(self):
-        inputs = []
         moreThanZero = 0
 
         heapKey = -1
@@ -54,7 +53,6 @@ class HeapFrame(tk.Frame):
             # Kijk na of de input een positieve integer is
             try:
                 val = int(heap.input)
-                inputs.append(val)
 
                 if val > 0:
                     moreThanZero += 1
