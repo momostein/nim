@@ -1,4 +1,5 @@
-# Default gamemodes
+# Project Objectorientatie: NIM - Game Modes
+# Brecht Ooms / 2 ELO-ICT / 2018
 
 import player
 

@@ -176,11 +176,11 @@ class Heap(tk.Frame):
     def zet(self, amount):
         if amount <= 0:
             self.focus()
-            raise ValueError("Je moet minstens 1 nemen!")
+            raise ValueError("U moet minstens 1 nemen!")
 
         if amount > self.tokens:
             self.focus()
-            raise ValueError("Je kunt maximaal {:d} tokens van {:s} nemen".format(
+            raise ValueError("U kunt maximaal {:d} tokens van {:s} nemen".format(
                 self.tokens,
                 self._title))
 

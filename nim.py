@@ -20,6 +20,9 @@ PLAYERS = gamemodes.DEFAULT
 # Aantal stapels
 HEAPS = 3
 
+# Meld de zetten van de AI's
+SHOWAIMOVE = False
+
 
 class Main(tk.Tk):
     """Main window"""
@@ -31,7 +34,7 @@ class Main(tk.Tk):
         self.title("NIM")
         self.iconbitmap(os.path.realpath('images/nim_icon.ico'))
 
-        # Niet resizable in elke richting
+        # Niet resizable in de verticale richting
         self.resizable(True, False)
 
         # Bovenste Frame met spelers en hun labels
@@ -55,33 +58,41 @@ class Main(tk.Tk):
         self._topFrame.focus()
 
     def nieuw(self):
+        # Start alle frames op
         self._topFrame.start()
         self._midFrame.start()
         self._botFrame.start()
 
+        # Zet de focus op de stapel
         self._midFrame.focus()
 
+        # Maak een generator met de spelers
         self._spelers = self._topFrame.spelers()
 
         # Zet de eerste speler aan beurt
         self._curspeler = next(self._spelers)
+
+        # Een AI moet automatisch een zet maken
         if not self._curspeler.human:
             self.zet()
 
     def zet(self):
-
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
             # als het een mens is
             if self._curspeler.human:
+
                 try:
+                    # Vraag de inputs op
                     zet = self._midFrame.getZet()
 
+                    # Geef de state, speler en zet weer in de CLI
                     print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
                                                                         str(self._curspeler),
                                                                         zet))
 
+                    # Maak de gegeven zet
                     self._midFrame.zet(zet)
 
                 except ValueError as error:
@@ -90,21 +101,36 @@ class Main(tk.Tk):
 
                     # Stop de loop zodat de speler opnieuw kan proberen
                     break
+
             else:
+                # Vraag de zet op van de AI
                 zet = self._curspeler.getZet(self._midFrame.state)
 
+                # Geef de state, speler en zet weer in de CLI
                 print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
                                                                     str(self._curspeler),
                                                                     zet))
                 try:
+                    # Maak de gegeven zet van de AI
                     self._midFrame.zet(zet)
+
+                    # Titel van de betrokken stapel
                     title = self._midFrame.titles[zet[0]]
 
-                    # TODO: Meervoud/enkelvoud tokens
-                    message = "{:s} neemt {:d} token(s) van {:s}".format(str(self._curspeler),
+                    # Meervoud/Enkelvoud van token(s)
+                    token = "token"
+                    if zet[1] != 1:
+                        token += "s"
+
+                    if SHOWAIMOVE:
+                        # Bouw het bericht op
+                        message = "{:s} neemt {:d} {:s} van {:s}".format(str(self._curspeler),
                                                                          zet[1],
+                                                                         token,
                                                                          title)
-                    messagebox.showinfo(self._curspeler, message)
+
+                        # Geef het aantal tokens en de betrokken stapel weer
+                        messagebox.showinfo(self._curspeler, message)
 
                 except ValueError as error:
                     # Laat de error zien in een warning
@@ -114,9 +140,16 @@ class Main(tk.Tk):
                     self.quit()
                     break
 
+            # Kijk na of alle stapels leeg zijn
             if not any(self._midFrame.state):
+                # Incrementeer de zetten één laatste keer
+                self._curspeler.zet()
+
+                # Bouw het bericht op
                 winMessage = '{:s} is verloren...'.format(
                     str(self._curspeler))
+
+                # Geef het bericht weer
                 messagebox.showinfo('Verloren', winMessage)
 
                 # Stop het spel en breek uit de loop
@@ -137,11 +170,15 @@ class Main(tk.Tk):
     def stop(self):
         print("Resetting...")
 
+        # Reset alle frames
         self._topFrame.reset()
         self._midFrame.reset()
         self._botFrame.reset()
 
+        # Zet de focus op het eerste open naamvak van de speler
         self._topFrame.focus()
+
+        # TODO: Zet de focus op de nieuwknop als geen spelers enabled zijn
 
 
 class TopFrame(tk.Frame):
@@ -158,14 +195,18 @@ class TopFrame(tk.Frame):
         self._lbl_top_naam.grid(row=1, sticky=tk.W)
         self._lbl_top_zetten.grid(row=2, sticky=tk.W)
 
+        # Verzamel alle spelers uit de gamemode dict
         self._spelers = []
         for i, spelerDict in enumerate(spelers, start=1):
+            # Extraheer de data
             name = spelerDict['title']
             spelerClass = spelerDict['class']
 
+            # Initializeer het type speler en zet hem in de grid
             speler = spelerClass(self, name)
             speler.grid(i)
 
+            # Zet hem in de grid
             self._spelers.append(speler)
 
     def start(self):
@@ -191,7 +232,7 @@ class TopFrame(tk.Frame):
         def generator():
             while True:
                 for speler in self._spelers:
-                    # TODO: highlighting here?
+                    # TODO: highlighting hier?
                     print('\n{:s} is aan beurt'.format(str(speler)))
                     yield speler
                     speler.zet()
@@ -237,5 +278,4 @@ class BtnFrame(tk.Frame):
 
 if __name__ == "__main__":
     app = Main()
-
     app.mainloop()
