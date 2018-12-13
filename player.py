@@ -23,8 +23,7 @@ class _BaseColumn():
         self._name.set("")
         self._ent_name = tk.Entry(master,
                                   textvariable=self._name,
-                                  state="readonly",
-                                  takefocus=False)
+                                  state=tk.DISABLED)
 
         self._enabled = False
 
@@ -70,6 +69,7 @@ class _BaseColumn():
     def reset(self):
         self._zetten.set(0)
         self._name.set("")
+        self._ent_name.config(state=tk.DISABLED)
 
     def focus(self):
         self._ent_name.focus_set()
