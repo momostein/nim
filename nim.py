@@ -20,7 +20,10 @@ PLAYERS = gamemodes.DEFAULT
 HEAPS = 3
 
 # Meld de zetten van de AI's
-SHOWAIMOVE = False
+SHOWAIMOVE = True
+
+# Highlight de speler aan beurt
+HIGHLIGHT = False
 
 
 # TODO: Meer comments
@@ -237,10 +240,13 @@ class TopFrame(tk.Frame):
         def generator():
             while True:
                 for speler in self._spelers:
-                    # TODO: Player highlighting
                     print('\n{:s} is aan beurt'.format(str(speler)))
+                    speler.highlight(HIGHLIGHT)
+
                     yield speler
+
                     speler.zet()
+                    speler.highlight(False)
 
         return generator
 

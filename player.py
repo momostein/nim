@@ -1,9 +1,11 @@
 # Project Objectorientatie: NIM - Player classes
 # Brecht Ooms / 2 ELO-ICT / 2018
 
-import tkinter as tk
 import random
+import tkinter as tk
 
+DEFAULTCOLOR = 'SystemButtonFace'
+HIGHLIGHTCOLOR = 'lawn green'
 
 # TODO: Meer comments
 
@@ -21,7 +23,7 @@ class _BaseColumn:
         self._human = False
 
         # Label bovenaan
-        self._lbl_label = tk.Label(master, text=self._title)
+        self._lbl_title = tk.Label(master, text=self._title)
 
         self._name = tk.StringVar()
         self._name.set("")
@@ -40,17 +42,20 @@ class _BaseColumn:
 
     def grid(self, column=0, row=0):
         # Zet alle widgets in de juiste column
-        self._lbl_label.grid(row=row,
+        self._lbl_title.grid(row=row,
                              column=column,
+                             padx=2, pady=(0, 5),
                              sticky='nesw')
 
         self._ent_name.grid(row=row + 1,
-                            column=column, padx=2,
+                            column=column,
+                            padx=2,
                             sticky='nesw')
 
         self._ent_zetten.grid(row=row + 2,
                               column=column,
-                              padx=2, sticky='nesw')
+                              padx=2,
+                              sticky='nesw')
 
         # Maak de kolom resizeable
         self._master.columnconfigure(column, weight=1)
@@ -70,16 +75,26 @@ class _BaseColumn:
         self._zetten.set(0)
         self._playercount = playercount
 
+        self.highlight(False)
+
     def reset(self):
         self._zetten.set(0)
         self._name.set("")
         self._ent_name.config(state=tk.DISABLED)
+
+        self.highlight(False)
 
     def focus(self):
         self._ent_name.focus_set()
 
     def __str__(self):
         return "{0.title:s}: {0.name:s}".format(self)
+
+    def highlight(self, flag=True):
+        if flag:
+            self._lbl_title.config(bg=HIGHLIGHTCOLOR)
+        else:
+            self._lbl_title.config(bg=DEFAULTCOLOR)
 
     @property
     def human(self):

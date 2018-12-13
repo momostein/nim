@@ -1,14 +1,13 @@
 # Project Objectorientatie: NIM -  Heap classes
 # Brecht Ooms / 2 ELO-ICT / 2018
 
-import tkinter as tk
 import random
+import tkinter as tk
 
 # TODO: Meer comments
 
 MIN = 1
 MAX = 9
-
 
 class HeapFrame(tk.Frame):
     """Frame met meerdere stapels"""
