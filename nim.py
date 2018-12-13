@@ -27,9 +27,6 @@ SHOWAIMOVE = False
 # TODO: Meer comments
 
 
-# TODO: Meer comments
-
-
 class Main(tk.Tk):
     """Main window"""
 
