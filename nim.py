@@ -21,7 +21,10 @@ PLAYERS = gamemodes.DEFAULT
 HEAPS = 3
 
 # Meld de zetten van de AI's
-SHOWAIMOVE = True
+SHOWAIMOVE = False
+
+
+# TODO: Meer comments
 
 
 # TODO: Meer comments
