@@ -1,11 +1,10 @@
 # Project Objectorientatie: NIM - Main program
 # Brecht Ooms / 2 ELO-ICT / 2018
 
+import os
 import tkinter as tk
 from tkinter import messagebox
-import os
 
-import player
 import gamemodes
 import heap
 
