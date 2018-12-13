@@ -62,6 +62,7 @@ class _BaseColumn():
         self._ent_name.config(state=tk.DISABLED)
         self._enabled = False
 
+        self._zetten.set(0)
         self._playercount = playercount
 
     def reset(self):

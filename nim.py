@@ -21,8 +21,6 @@ PLAYERS = [
     }
 ]
 
-# TODO: Vraag naar de juiste handeling van de nieuwknop
-#       Als er al een spel bezig is
 
 
 class Main(tk.Tk):
