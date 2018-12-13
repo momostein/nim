@@ -4,10 +4,12 @@
 import random
 import tkinter as tk
 
-# TODO: Meer comments
-
 MIN = 1
 MAX = 9
+
+
+# TODO: Meer comments
+
 
 class HeapFrame(tk.Frame):
     """Frame met meerdere stapels"""

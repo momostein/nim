@@ -10,7 +10,9 @@ DEFAULTRELIEF = 'flat'
 HIGHLIGHTCOLOR = 'lawn green'
 HIGHLIGHTRELIEF = 'raised'
 
+
 # TODO: Meer comments
+
 
 class _BaseColumn:
     """Basisframe voor een speler/AI"""
