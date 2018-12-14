@@ -26,9 +26,6 @@ SHOWAIMOVE = True
 HIGHLIGHT = True
 
 
-# TODO: Meer docstrings
-
-
 class Main(tk.Tk):
     """Main window"""
 
@@ -69,6 +66,8 @@ class Main(tk.Tk):
             self._botFrame.focus_nieuw()
 
     def nieuw(self):
+        """Start een nieuw spel op"""
+
         # Start alle frames op
         self._topFrame.start()
         self._midFrame.start()
@@ -88,6 +87,9 @@ class Main(tk.Tk):
             self.zet()
 
     def zet(self):
+        """Voer zetten uit tot er input gevraagt wordt
+        of totdat een speler verliest"""
+
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
         while True:
@@ -177,6 +179,8 @@ class Main(tk.Tk):
                 break
 
     def stop(self):
+        """Stop het spel en reset naar de beginstaat"""
+
         print("Resetting...")
 
         # Reset alle frames
