@@ -1,4 +1,4 @@
-# Project Objectorientatie: NIM - Player classes
+# Project Objectorientatie: NIM - Player klassen
 # Brecht Ooms / 2 ELO-ICT / 2018
 
 import random

@@ -1,4 +1,4 @@
-# Project Objectorientatie: NIM - Main program
+# Project Objectorientatie: NIM - Hoofdprogramma
 # Brecht Ooms / 2 ELO-ICT / 2018
 
 import os

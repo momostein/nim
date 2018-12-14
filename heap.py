@@ -1,9 +1,10 @@
-# Project Objectorientatie: NIM -  Heap classes
+# Project Objectorientatie: NIM -  Heap klassen
 # Brecht Ooms / 2 ELO-ICT / 2018
 
 import random
 import tkinter as tk
 
+# Minimum en Maximum aantal tokens per stapel bij het starten van het spel
 MIN = 1
 MAX = 9
 
