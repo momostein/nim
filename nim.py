@@ -23,16 +23,16 @@ HEAPS = 3
 SHOWAIMOVE = True
 
 # Highlight de speler aan beurt
-HIGHLIGHT = False
+HIGHLIGHT = True
 
 
-# TODO: Meer comments
+# TODO: Meer docstrings
 
 
 class Main(tk.Tk):
     """Main window"""
 
-    def __init__(self):
+    def __init__(self, players=gamemodes.DEFAULT):
         super().__init__()
 
         # Attributes
@@ -47,7 +47,7 @@ class Main(tk.Tk):
         self.resizable(True, False)
 
         # Bovenste Frame met spelers en hun labels
-        self._topFrame = TopFrame(self, PLAYERS)
+        self._topFrame = TopFrame(self, players)
 
         # Middenste Frame met alle stapels
         self._midFrame = heap.HeapFrame(self, HEAPS)
@@ -218,34 +218,53 @@ class TopFrame(tk.Frame):
             self._spelers.append(speler)
 
     def start(self):
+        """Initializeer alle spelers"""
+        # Aantal spelers
         playercount = len(self._spelers)
+
+        # Initializeer alle spelers
         for speler in self._spelers:
             speler.start(playercount)
 
     def reset(self):
+        """Reset alle spelers"""
         for speler in self._spelers:
             speler.reset()
 
     def focus(self, key=0):
+        """Zet de focus op de eerste ingeschakelde speler (vanaf key)"""
+
+        # Alle spelers vanaf key
         for speler in self._spelers[key:]:
             if speler.enabled:
                 speler.focus()
+
+                # We konden de focus zetten op een speler
                 return True
 
+        # Geen enkele speler was ingeschakeld
         return False
 
     # Eindeloze generator met alle spelers op volgorde
     @property
     def spelers(self):
+        """Eindeloze generator met alle spelers op volgorde"""
+
+        # Defininiëer de generatorfunctie
         def generator():
+            # Oneindige loop
             while True:
                 for speler in self._spelers:
                     print('\n{:s} is aan beurt'.format(str(speler)))
+
+                    # Highlight deze speler als highlight aan staat
                     speler.highlight(HIGHLIGHT)
 
                     yield speler
 
+                    # Incrementeer de zetten van de speler
                     speler.zet()
+                    # Zet de highlight af
                     speler.highlight(False)
 
         return generator
@@ -256,46 +275,58 @@ class BtnFrame(tk.Frame):
 
     def __init__(self, master=None, zet=None, nieuw=None, stop=None):
         super().__init__(master)
+
+        # Zet knop
         self._btn_zet = tk.Button(self,
                                   text="Zet",
                                   command=zet,
                                   state=tk.DISABLED,
                                   width=10)
-
+        # Nieuw knop
         self._btn_nieuw = tk.Button(self,
                                     text="Nieuw",
                                     command=nieuw,
                                     width=10)
-
+        # Stop knop
         self._btn_stop = tk.Button(self,
                                    text="Stop",
                                    command=stop,
                                    width=10)
 
+        # Zet alle knoppen in de grid
         self._btn_zet.grid(row=0, column=0, padx=2, pady=2, sticky="nesw")
         self._btn_nieuw.grid(row=0, column=1, padx=2, pady=2, sticky="nesw")
         self._btn_stop.grid(row=0, column=2, padx=2, pady=2, sticky="nesw")
 
+        # Maak elke kolom resizable
         for x in range(3):
-            # Maak de kolom resizeable
             self.columnconfigure(x, weight=1)
 
     def start(self):
+        """Start het spel door de zet knop aan te zetten"""
         self._btn_zet.config(state=tk.NORMAL)
 
     def reset(self):
+        """Reset het spel door de zet knop uit te zetten"""
         self._btn_zet.config(state=tk.DISABLED)
 
     def focus_zet(self):
-        self._btn_zet.focus()
+        """Zet de focus op de zet knop"""
+        self._btn_zet.focus_set()
 
     def focus_nieuw(self):
-        self._btn_nieuw.focus()
+        """Zet de focus op de zet knop"""
+        self._btn_nieuw.focus_set()
 
     def focus_stop(self):
-        self._btn_stop.focus()
+        """Zet de focus op de zet knop"""
+        self._btn_stop.focus_set()
 
 
+# Main program
 if __name__ == "__main__":
-    app = Main()
+    # Nim instantie met de juiste spelerconifigeruatie
+    app = Main(PLAYERS)
+
+    # Start het scherm
     app.mainloop()
