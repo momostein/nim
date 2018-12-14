@@ -8,9 +8,6 @@ MIN = 1
 MAX = 9
 
 
-# TODO: Meer comments
-
-
 class HeapFrame(tk.Frame):
     """Frame met meerdere stapels"""
 
@@ -38,16 +35,22 @@ class HeapFrame(tk.Frame):
             self._heaps.append(heap)
 
     def start(self):
+        """Initializeer alle stapels"""
         for heap in self._heaps:
             heap.start()
 
     def reset(self):
+        """Reset alle stapels"""
         for heap in self._heaps:
             heap.reset()
 
     def get_zet(self):
+        """Verkrijg de zet uit de inputs"""
+
+        # Hoeveel stapels er niet 0 zijn
         more_than_zero = 0
 
+        # De key en hoeveelheid tokens van de stapel met meer dan 0 tokens
         heap_key = -1
         amount = -1
 
@@ -63,32 +66,43 @@ class HeapFrame(tk.Frame):
                     heap_key = i
                     amount = val
 
+            # Geen geldig getal ingegeven
             except ValueError:
+                # Zet de focus op de betreffende stapel
                 heap.focus()
                 raise ValueError('U moet geldige getallen ingeven!')
 
+        # Alle inputs zijn 0
         if more_than_zero == 0:
+            # Zet de focus op de eerste open stapel
             self.focus()
             raise ValueError('U moet minstens één token nemen!')
 
+        # Meer dan 1 stapel groter dan 0
         if more_than_zero > 1:
+            # Zet de focus op de eerste open stapel
             self.focus()
             raise ValueError('U mag maar van één stapel nemen!')
 
+        # Return de ingevulde zet
         return heap_key, amount
 
     def zet(self, zet):
+        """Voer de gegeven zet uit"""
         self._heaps[zet[0]].zet(zet[1])
 
     def focus(self, key=0):
+        """Focus op de eerste ingeschakelde hoop vanaf key"""
 
-        # Focus the first enabled heap starting from key
+        # Voor elke hoop vanaf key
         for heap in self._heaps[key:]:
             if heap.enabled:
                 heap.focus()
+
+                # We konden focussen op een hoop
                 return True
         else:
-            # Return false if none are enabled starting from key
+            # Geen enekele hoop is ingeschakeld
             return False
 
     def get_title(self, key):
@@ -97,10 +111,12 @@ class HeapFrame(tk.Frame):
 
     @property
     def state(self):
+        """Een lijst met de hoeveel tokens er in elke stapel zitten"""
         return [heap.tokens for heap in self._heaps]
 
     @property
     def titles(self):
+        """Een lijst met al de titels van de stapels"""
         return [heap.title for heap in self._heaps]
 
 
@@ -141,61 +157,80 @@ class Heap(tk.Frame):
         self.columnconfigure(0, weight=1)
 
     def start(self):
+        """Initializeer de stapel met een willekeurige waarde"""
+
         # Vul een willekeurige hoeveelheid tokens in
         self._tokens.set(random.randint(MIN, MAX))
 
         # Reset the input
         self._strInput.set(0)
-
         self.enable()
 
     def reset(self):
+        """Reset de stapel en disable de input"""
         self._tokens.set(0)
         self._strInput.set("")
         self.disable()
 
     def zet(self, amount):
+        """Haal de gegeven hoeveelheid uit deze stapel"""
+
+        # Als men geen (of een negatief aantal) tokens probeert te nemen
         if amount <= 0:
+            # Zet de focus op deze stapel
             self.focus()
             raise ValueError("U moet minstens 1 nemen!")
 
+        # Als men teveel tokens probeert te nemen
         if amount > self.tokens:
+            # Zet de focus op deze stapel
             self.focus()
             raise ValueError("U kunt maximaal {:d} tokens van {:s} nemen".format(
                 self.tokens,
                 self._title))
 
-        else:
-            self._tokens.set(self.tokens - amount)
-            self.input = 0
-            if self.tokens == 0:
-                self.disable()
+        # Voor neem de hoeveelheid tokens uit deze stapel
+        self._tokens.set(self.tokens - amount)
+
+        # Zet de input op 0
+        self.input = 0
+
+        # Disable de input als de stapel leeg is
+        if self.tokens == 0:
+            self.disable()
 
     def focus(self):
+        """Zet de focus op deze stapel"""
         self._ent_input.focus_set()
 
     def disable(self):
+        """Disable de input van deze stapel"""
         self._ent_input.config(state=tk.DISABLED)
         self._enabled = False
 
     def enable(self):
+        """Enable de input van deze stapel"""
         self._ent_input.config(state=tk.NORMAL)
         self._enabled = True
 
     @property
     def tokens(self):
+        """De hoeveelheid tokens in deze stapel"""
         return self._tokens.get()
 
     @property
     def title(self):
+        """De titel van deze staple"""
         return self._title
 
     @property
     def enabled(self):
+        """Of de input aan staat"""
         return self._enabled
 
     @property
     def input(self):
+        """De ingegeven string"""
         return self._strInput.get()
 
     @input.setter
@@ -204,7 +239,7 @@ class Heap(tk.Frame):
 
 
 def validate(action, edited, change):
-    """validatiefunctie om alleen nummers toe te laten"""
+    """Validatiefunctie om alleen nummers toe te laten"""
 
     # action : Type of action (1=insert, 0=delete, -1 for others)
     # edited : Value of the entry if the edit is allowed
