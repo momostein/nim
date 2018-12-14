@@ -91,6 +91,10 @@ class HeapFrame(tk.Frame):
             # Return false if none are enabled starting from key
             return False
 
+    def get_title(self, key):
+        """Verkrijg de titel van de stapel met index key"""
+        return self._heaps[key].title
+
     @property
     def state(self):
         return [heap.tokens for heap in self._heaps]

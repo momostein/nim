@@ -126,7 +126,7 @@ class Main(tk.Tk):
                     self._midFrame.zet(zet)
 
                     # Titel van de betrokken stapel
-                    title = self._midFrame.titles[zet[0]]
+                    title = self._midFrame.get_title(zet[0])
 
                     # Meervoud/Enkelvoud van token(s)
                     token = "token"
