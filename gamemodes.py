@@ -6,7 +6,7 @@ import player
 # Speler vs Random AI
 DEFAULT = [
     {
-        'title': 'Player',
+        'title': 'Speler',
         'class': player.Speler
     },
     {
@@ -18,11 +18,11 @@ DEFAULT = [
 # Speler vs Speler
 PVP = [
     {
-        'title': 'Player 1',
+        'title': 'Speler 1',
         'class': player.Speler
     },
     {
-        'title': 'Player 2',
+        'title': 'Speler 2',
         'class': player.Speler
     }
 ]
@@ -30,7 +30,7 @@ PVP = [
 # Speler vs Hard AI
 NIMSUM = [
     {
-        'title': 'Player',
+        'title': 'Speler',
         'class': player.Speler
     },
     {
@@ -55,7 +55,7 @@ AIVAI = [
 # Speler vs Random AI vs Hard AI
 ALL = [
     {
-        'title': 'Player',
+        'title': 'Speler',
         'class': player.Speler
     },
     {

@@ -27,7 +27,7 @@ HIGHLIGHT = True
 
 
 class Main(tk.Tk):
-    """Main window"""
+    """Main window."""
 
     def __init__(self, players=gamemodes.DEFAULT):
         super().__init__()
@@ -66,7 +66,7 @@ class Main(tk.Tk):
             self._botFrame.focus_nieuw()
 
     def nieuw(self):
-        """Start een nieuw spel op"""
+        """Start een nieuw spel op."""
 
         # Start alle frames op
         self._topFrame.start()
@@ -88,7 +88,7 @@ class Main(tk.Tk):
 
     def zet(self):
         """Voer zetten uit tot er input gevraagt wordt
-        of totdat een speler verliest"""
+        of totdat een speler verliest."""
 
         # Loop tot een mens aan de beurt is
         # Of totdat iemand verloren is
@@ -179,7 +179,7 @@ class Main(tk.Tk):
                 break
 
     def stop(self):
-        """Stop het spel en reset naar de beginstaat"""
+        """Stop het spel en reset naar de beginstaat."""
 
         print("Resetting...")
 
@@ -194,7 +194,7 @@ class Main(tk.Tk):
 
 
 class TopFrame(tk.Frame):
-    """Bovenste frame met de speler en de AI"""
+    """Bovenste frame met de speler en de AI."""
 
     def __init__(self, master=None, spelers=gamemodes.DEFAULT):
         super().__init__(master)
@@ -222,7 +222,7 @@ class TopFrame(tk.Frame):
             self._spelers.append(speler)
 
     def start(self):
-        """Initializeer alle spelers"""
+        """Initializeer alle spelers."""
         # Aantal spelers
         playercount = len(self._spelers)
 
@@ -231,12 +231,12 @@ class TopFrame(tk.Frame):
             speler.start(playercount)
 
     def reset(self):
-        """Reset alle spelers"""
+        """Reset alle spelers."""
         for speler in self._spelers:
             speler.reset()
 
     def focus(self, key=0):
-        """Zet de focus op de eerste ingeschakelde speler (vanaf key)"""
+        """Zet de focus op de eerste ingeschakelde speler (vanaf key)."""
 
         # Alle spelers vanaf key
         for speler in self._spelers[key:]:
@@ -252,7 +252,7 @@ class TopFrame(tk.Frame):
     # Eindeloze generator met alle spelers op volgorde
     @property
     def spelers(self):
-        """Eindeloze generator met alle spelers op volgorde"""
+        """Eindeloze generator met alle spelers op volgorde."""
 
         # Defininiëer de generatorfunctie
         def generator():
@@ -275,7 +275,7 @@ class TopFrame(tk.Frame):
 
 
 class BtnFrame(tk.Frame):
-    """Onderste frame met al de knoppen"""
+    """Onderste frame met al de knoppen."""
 
     def __init__(self, master=None, zet=None, nieuw=None, stop=None):
         super().__init__(master)
@@ -307,23 +307,23 @@ class BtnFrame(tk.Frame):
             self.columnconfigure(x, weight=1)
 
     def start(self):
-        """Start het spel door de zet knop aan te zetten"""
+        """Start het spel door de zet knop aan te zetten."""
         self._btn_zet.config(state=tk.NORMAL)
 
     def reset(self):
-        """Reset het spel door de zet knop uit te zetten"""
+        """Reset het spel door de zet knop uit te zetten."""
         self._btn_zet.config(state=tk.DISABLED)
 
     def focus_zet(self):
-        """Zet de focus op de zet knop"""
+        """Zet de focus op de zet knop."""
         self._btn_zet.focus_set()
 
     def focus_nieuw(self):
-        """Zet de focus op de zet knop"""
+        """Zet de focus op de zet knop."""
         self._btn_nieuw.focus_set()
 
     def focus_stop(self):
-        """Zet de focus op de zet knop"""
+        """Zet de focus op de zet knop."""
         self._btn_stop.focus_set()
 
 

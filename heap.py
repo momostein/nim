@@ -10,7 +10,7 @@ MAX = 9
 
 
 class HeapFrame(tk.Frame):
-    """Frame met meerdere stapels"""
+    """Frame met meerdere stapels."""
 
     def __init__(self, master=None, heaps=3):
         super().__init__(master)
@@ -36,17 +36,17 @@ class HeapFrame(tk.Frame):
             self._heaps.append(heap)
 
     def start(self):
-        """Initializeer alle stapels"""
+        """Initializeer alle stapels."""
         for heap in self._heaps:
             heap.start()
 
     def reset(self):
-        """Reset alle stapels"""
+        """Reset alle stapels."""
         for heap in self._heaps:
             heap.reset()
 
     def get_zet(self):
-        """Verkrijg de zet uit de inputs"""
+        """Verkrijg de zet uit de inputs."""
 
         # Hoeveel stapels er niet 0 zijn
         more_than_zero = 0
@@ -89,11 +89,11 @@ class HeapFrame(tk.Frame):
         return heap_key, amount
 
     def zet(self, zet):
-        """Voer de gegeven zet uit"""
+        """Voer de gegeven zet uit."""
         self._heaps[zet[0]].zet(zet[1])
 
     def focus(self, key=0):
-        """Focus op de eerste ingeschakelde hoop vanaf key"""
+        """Focus op de eerste ingeschakelde hoop vanaf key."""
 
         # Voor elke hoop vanaf key
         for heap in self._heaps[key:]:
@@ -107,22 +107,22 @@ class HeapFrame(tk.Frame):
             return False
 
     def get_title(self, key):
-        """Verkrijg de titel van de stapel met index key"""
+        """Verkrijg de titel van de stapel met index key."""
         return self._heaps[key].title
 
     @property
     def state(self):
-        """Een lijst met de hoeveel tokens er in elke stapel zitten"""
+        """Een lijst met de hoeveel tokens er in elke stapel zitten."""
         return [heap.tokens for heap in self._heaps]
 
     @property
     def titles(self):
-        """Een lijst met al de titels van de stapels"""
+        """Een lijst met al de titels van de stapels."""
         return [heap.title for heap in self._heaps]
 
 
 class Heap(tk.Frame):
-    """Een frame voor een stapel"""
+    """Een frame voor een stapel."""
 
     def __init__(self, master=None, title="Stapel", vcmd=None):
         super().__init__(master)
@@ -158,7 +158,7 @@ class Heap(tk.Frame):
         self.columnconfigure(0, weight=1)
 
     def start(self):
-        """Initializeer de stapel met een willekeurige waarde"""
+        """Initializeer de stapel met een willekeurige waarde."""
 
         # Vul een willekeurige hoeveelheid tokens in
         self._tokens.set(random.randint(MIN, MAX))
@@ -168,13 +168,13 @@ class Heap(tk.Frame):
         self.enable()
 
     def reset(self):
-        """Reset de stapel en disable de input"""
+        """Reset de stapel en disable de input."""
         self._tokens.set(0)
         self._strInput.set("")
         self.disable()
 
     def zet(self, amount):
-        """Haal de gegeven hoeveelheid uit deze stapel"""
+        """Haal de gegeven hoeveelheid uit deze stapel."""
 
         # Als men geen (of een negatief aantal) tokens probeert te nemen
         if amount <= 0:
@@ -201,37 +201,37 @@ class Heap(tk.Frame):
             self.disable()
 
     def focus(self):
-        """Zet de focus op deze stapel"""
+        """Zet de focus op deze stapel."""
         self._ent_input.focus_set()
 
     def disable(self):
-        """Disable de input van deze stapel"""
+        """Disable de input van deze stapel."""
         self._ent_input.config(state=tk.DISABLED)
         self._enabled = False
 
     def enable(self):
-        """Enable de input van deze stapel"""
+        """Enable de input van deze stapel."""
         self._ent_input.config(state=tk.NORMAL)
         self._enabled = True
 
     @property
     def tokens(self):
-        """De hoeveelheid tokens in deze stapel"""
+        """De hoeveelheid tokens in deze stapel."""
         return self._tokens.get()
 
     @property
     def title(self):
-        """De titel van deze staple"""
+        """De titel van deze staple."""
         return self._title
 
     @property
     def enabled(self):
-        """Of de input aan staat"""
+        """Of de input aan staat."""
         return self._enabled
 
     @property
     def input(self):
-        """De ingegeven string"""
+        """De ingegeven string."""
         return self._strInput.get()
 
     @input.setter
@@ -240,7 +240,7 @@ class Heap(tk.Frame):
 
 
 def validate(action, edited, change):
-    """Validatiefunctie om alleen nummers toe te laten"""
+    """Validatiefunctie om alleen nummers toe te laten."""
 
     # action : Type of action (1=insert, 0=delete, -1 for others)
     # edited : Value of the entry if the edit is allowed
