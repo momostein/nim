@@ -31,8 +31,11 @@ class _BaseColumn:
         self._lbl_title = tk.Label(master, text=self._title)
         self.highlight(False)
 
+        # Naamvariabele voor het naamvak
         self._name = tk.StringVar()
         self._name.set("")
+
+        # Naamvak (disabled by default in het begin)
         self._ent_name = tk.Entry(master,
                                   textvariable=self._name,
                                   state=tk.DISABLED)
@@ -87,7 +90,7 @@ class _BaseColumn:
         # Verander de naam (als een subklasse deze functie overridden heeft)
         self._set_name()
 
-        # Disable de naam entry
+        # Zet het naamvak op readonly en disable de tab-focus
         self._ent_name.config(state="readonly", takefocus=False)
         self._enabled = False
 
@@ -132,18 +135,21 @@ class _BaseColumn:
 
     @property
     def name(self):
+        """Naam van de speler."""
         return self._name.get()
 
     @property
     def title(self):
+        """Titel boven de speler."""
         return self._title
 
     @property
     def enabled(self):
+        """Of het naamvak enabled is"""
         return self._enabled
 
-    # Private functie die de naam eventueel veranderd
     def _set_name(self):
+        """Private functie die de naam eventueel veranderd als men deze override"""
         pass
 
 
@@ -160,7 +166,10 @@ class Speler(_BaseColumn):
         self._enabled = True
 
     def reset(self):
+        """Reset de naam en het aantal zetten."""
         super().reset()
+
+        # Enable het naamvak
         self._ent_name.config(state=tk.NORMAL, takefocus=True)
         self._enabled = True
 
@@ -183,7 +192,7 @@ class NimSumAI(_BaseColumn):
     """
 
     def _set_name(self):
-        """Zet de naam op een willekeurige naam uit aiNames.txt."""
+        """Zet de naam op een willekeurige naam uit 'aiNames.txt'."""
         # Open de file en zet alle lijnen in een list
         with open('aiNames.txt') as f:
             names = list(f)
@@ -200,6 +209,8 @@ class NimSumAI(_BaseColumn):
 
         Geeft een waarschuwing als het aantal spelers niet gelijk is aan 2.
         """
+
+        # Kijk na of er twee spelers in het spel zijn
         if playercount != 2:
             print("Warning!: NimSumAI works best with 2 players!")
 
@@ -215,36 +226,45 @@ class NimSumAI(_BaseColumn):
 
         nim_sum = 0
         for heap in state:
-            # Bereken nim sum (bitwise XOR)
+            # Bereken nim sum (bitwise XOR van alle stapels)
             nim_sum = nim_sum ^ heap
 
-        print(nim_sum)
+        print(nim_sum)  # Ter controle
 
+        # Als de nim_sum 0 is en de tegenstander perfect speelt kan deze AI niet winnen
         if nim_sum == 0:
-            # kan normaal niet winnen, neem van random stapel
+            # Neem een willekeurig zet omdat het niet uit maakt
             return _random_zet(state)
 
+        # Neem het grootste aantal tokens zodat de nim_sum 0 is na deze beurt
         for index, heap in enumerate(state):
+            # De gewilde hoeveelheid in deze stapel
             target = heap ^ nim_sum
 
+            # Als target kleiner is dan de stapel
             if target < heap:
+                # Hoeveel men van deze stapel moet nemen om target te bekomen
                 amount = heap - target
+
                 return index, amount
 
 
 def _endgame(state):
     """Bepaalt de beste zet tijdens de endgame."""
 
-    # 1 if odd, 0 if even
+    # 1 bij een oneven aantal niet-lege stapels
+    # 0 bij een even aantal niet-lege stapels
     odd = sum(1 for x in state if x > 0) % 2
 
+    # Aantal tokens en de index van de grootste stapel
     big_heap = max(state)
     big_index = state.index(big_heap)
 
-    # Remove whole stack if even, leave 1 if odd
+    # Laat 1 token achter bij een oneven aantal niet-lege stapels
+    # Neem de hele stapel bij een even aantal niet-lege stapels
     amount = big_heap - odd
 
-    # Can't take 0
+    # Je moet minstens 1 token nemen
     if amount < 1:
         amount = 1
 
@@ -253,17 +273,20 @@ def _endgame(state):
 
 def _random_zet(state):
     """Neem een willekeurig aantal van een willekeurige stapel."""
+
+    # Verzamel de index en het aantal tokens van alle niet-lege stapels
     heaps = []
-
     for heap in enumerate(state):
-
         # Als de stapel niet leeg is
         if heap[1] > 0:
             heaps.append(heap)
 
+    # Kijk na of er niet-lege stapels zijn
     if len(heaps) == 0:
         raise ValueError("Alle stapels zijn leeg!")
 
+    # kies een willekeurige stapel
     index, tokens = random.choice(heaps)
 
+    # Neem een willekeurig aantal tokens uit de stapel
     return index, random.randint(1, tokens)
