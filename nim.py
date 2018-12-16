@@ -158,8 +158,10 @@ class Main(tk.Tk):
                 self._curspeler.zet()
 
                 # Bouw het bericht op
-                win_message = '{:s} is verloren...'.format(
-                    str(self._curspeler))
+                win_message = '{:s} is verloren...'.format(str(self._curspeler))
+
+                # Print het bericht in de CLI
+                print('\n' + win_message)
 
                 # Geef het bericht weer
                 messagebox.showinfo('Verloren', win_message)
@@ -331,7 +333,7 @@ def format_zet(state, speler, zet):
 
     return "State: {0:<20} {1:<20} Move: {2}".format(str(state),
                                                      str(speler),
-                                                     zet)
+                                                     str(zet))
 
 
 # Main program
