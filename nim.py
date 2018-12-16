@@ -14,6 +14,7 @@ import heap
 # PVP:      Player      vs  Player
 # AIVAI:    Random AI   vs  Hard AI
 # ALL:      Speler      vs  Random AI   vs  Hard AI
+# PVPVP:    Speler      vs  Speler      vs  Speler
 PLAYERS = gamemodes.DEFAULT
 
 # Aantal stapels

@@ -49,7 +49,6 @@ AIVAI = [
         'title': 'Hard AI',
         'class': player.NimSumAI
     }
-
 ]
 
 # Speler vs Random AI vs Hard AI
@@ -66,5 +65,20 @@ ALL = [
         'title': 'Hard AI',
         'class': player.NimSumAI
     }
+]
 
+# Speler vs Speler vs Speler
+PVPVP = [
+    {
+        'title': 'Speler 1',
+        'class': player.Speler
+    },
+    {
+        'title': 'Speler 2',
+        'class': player.Speler
+    },
+    {
+        'title': 'Speler 3',
+        'class': player.Speler
+    },
 ]
