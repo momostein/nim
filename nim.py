@@ -68,6 +68,8 @@ class Main(tk.Tk):
     def nieuw(self):
         """Start een nieuw spel op."""
 
+        print("Nieuw spel")
+
         # Start alle frames op
         self._topFrame.start()
         self._midFrame.start()
@@ -101,9 +103,7 @@ class Main(tk.Tk):
                     zet = self._midFrame.get_zet()
 
                     # Geef de state, speler en zet weer in de CLI
-                    print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
-                                                                        str(self._curspeler),
-                                                                        zet))
+                    print(format_zet(self._midFrame.state, self._curspeler, zet))
 
                     # Maak de gegeven zet
                     self._midFrame.zet(zet)
@@ -120,9 +120,8 @@ class Main(tk.Tk):
                 zet = self._curspeler.get_zet(self._midFrame.state)
 
                 # Geef de state, speler en zet weer in de CLI
-                print("State: {0}\tPlayer: {1:s}\tMove: {2}".format(self._midFrame.state,
-                                                                    str(self._curspeler),
-                                                                    zet))
+                print(format_zet(self._midFrame.state, self._curspeler, zet))
+
                 try:
                     # Maak de gegeven zet van de AI
                     self._midFrame.zet(zet)
@@ -181,7 +180,7 @@ class Main(tk.Tk):
     def stop(self):
         """Stop het spel en reset naar de beginstaat."""
 
-        print("Resetting...")
+        print("Stoppen")
 
         # Reset alle frames
         self._topFrame.reset()
@@ -325,6 +324,14 @@ class BtnFrame(tk.Frame):
     def focus_stop(self):
         """Zet de focus op de zet knop."""
         self._btn_stop.focus_set()
+
+
+def format_zet(state, speler, zet):
+    """Opmaak van de status, speler en de zet."""
+
+    return "State: {0:<20} {1:<20} Move: {2}".format(str(state),
+                                                     str(speler),
+                                                     zet)
 
 
 # Main program
