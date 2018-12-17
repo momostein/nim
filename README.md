@@ -15,5 +15,5 @@ example:
 
 ```python
 Foo._nonPublic   # Instead of
-Foo.__nonPublic  # Will actually be Foo._Foo__nonPublic
+Foo.__nonPublic  # Wich will be mangled to Foo._Foo__nonPublic
 ```
