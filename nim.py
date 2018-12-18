@@ -80,7 +80,7 @@ class Main(tk.Tk):
         self._midFrame.focus()
 
         # Maak een generator met de spelers
-        self._spelers = self._topFrame.spelers()
+        self._spelers = self._topFrame.get_spelers()
 
         # Zet de eerste speler aan beurt
         self._curspeler = next(self._spelers)
@@ -251,29 +251,23 @@ class TopFrame(tk.Frame):
         # Geen enkele speler was ingeschakeld
         return False
 
-    # Eindeloze generator met alle spelers op volgorde
-    @property
-    def spelers(self):
-        """Eindeloze generator met alle spelers op volgorde."""
+    def get_spelers(self):
+        """Eindeloze generator met alle spelers op de juiste volgorde"""
+        
+        while True:
+            for speler in self._spelers:
+                print('\n{:s} is aan beurt'.format(str(speler)))
 
-        # Defininiëer de generatorfunctie
-        def generator():
-            # Oneindige loop
-            while True:
-                for speler in self._spelers:
-                    print('\n{:s} is aan beurt'.format(str(speler)))
+                # Highlight deze speler als deze optie aan staat
+                speler.highlight(HIGHLIGHT)
 
-                    # Highlight deze speler als highlight aan staat
-                    speler.highlight(HIGHLIGHT)
+                yield speler
 
-                    yield speler
+                # Incrementeer de zetten van de speler
+                speler.zet()
 
-                    # Incrementeer de zetten van de speler
-                    speler.zet()
-                    # Zet de highlight af
-                    speler.highlight(False)
-
-        return generator
+                # Zet de highlight af
+                speler.highlight(False)
 
 
 class BtnFrame(tk.Frame):
