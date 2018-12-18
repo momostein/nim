@@ -37,11 +37,13 @@ class HeapFrame(tk.Frame):
 
     def start(self):
         """Initializeer alle stapels."""
+
         for heap in self._heaps:
             heap.start()
 
     def reset(self):
         """Reset alle stapels."""
+
         for heap in self._heaps:
             heap.reset()
 
@@ -90,6 +92,7 @@ class HeapFrame(tk.Frame):
 
     def zet(self, zet):
         """Voer de gegeven zet uit."""
+
         self._heaps[zet[0]].zet(zet[1])
 
     def focus(self, key=0):
@@ -108,16 +111,19 @@ class HeapFrame(tk.Frame):
 
     def get_title(self, key):
         """Verkrijg de titel van de stapel met index key."""
+
         return self._heaps[key].title
 
     @property
     def state(self):
         """Een lijst met de hoeveel tokens er in elke stapel zitten."""
+
         return [heap.tokens for heap in self._heaps]
 
     @property
     def titles(self):
         """Een lijst met al de titels van de stapels."""
+
         return [heap.title for heap in self._heaps]
 
 
@@ -169,6 +175,7 @@ class Heap(tk.Frame):
 
     def reset(self):
         """Reset de stapel en disable de input."""
+
         self._tokens.set(0)
         self._strInput.set("")
         self.disable()
@@ -202,10 +209,12 @@ class Heap(tk.Frame):
 
     def focus(self):
         """Zet de focus op deze stapel."""
+
         self._ent_input.focus_set()
 
     def disable(self):
         """Disable de input van deze stapel."""
+
         self._ent_input.config(state=tk.DISABLED)
         self._enabled = False
 
@@ -217,21 +226,25 @@ class Heap(tk.Frame):
     @property
     def tokens(self):
         """De hoeveelheid tokens in deze stapel."""
+
         return self._tokens.get()
 
     @property
     def title(self):
         """De titel van deze staple."""
+
         return self._title
 
     @property
     def enabled(self):
         """Of de input aan staat."""
+
         return self._enabled
 
     @property
     def input(self):
         """De ingegeven string."""
+        
         return self._strInput.get()
 
     @input.setter

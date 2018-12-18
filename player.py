@@ -51,6 +51,7 @@ class _BaseColumn:
 
     def __str__(self):
         """De titel en de naam van deze speler."""
+
         return "{0.title:s}: {0.name:s}".format(self)
 
     def grid(self, column=0, row=0):
@@ -78,15 +79,18 @@ class _BaseColumn:
 
     def get_zet(self, state):
         """Calculeer de volgende zet uit de huidige staat van het spel."""
+
         return None
 
     def zet(self):
         """Incrementeer het aantal zetten van deze speler."""
+
         self._zetten.set(self._zetten.get() + 1)
 
     def start(self, playercount=-1):
         """Configerueer de naam en reset het aantal zettenself.
         Sla ook het aantal spelers op."""
+
         # Verander de naam (als een subklasse deze functie overridden heeft)
         self._set_name()
 
@@ -115,6 +119,7 @@ class _BaseColumn:
 
     def focus(self):
         """Zet de focus op het naamvak van deze speler."""
+
         self._ent_name.focus_set()
 
     def highlight(self, flag=True):
@@ -131,25 +136,30 @@ class _BaseColumn:
     def human(self):
         """True: Speler waarvan men de zet ingeeft via de inputs van de stapels
         False: AI die de zet bepaalt met de functie get_zet(state)."""
+
         return self._human
 
     @property
     def name(self):
         """Naam van de speler."""
+
         return self._name.get()
 
     @property
     def title(self):
         """Titel boven de speler."""
+
         return self._title
 
     @property
     def enabled(self):
         """Of het naamvak enabled is"""
+
         return self._enabled
 
     def _set_name(self):
         """Private functie die de naam eventueel veranderd als men deze override"""
+
         pass
 
 
@@ -167,6 +177,7 @@ class Speler(_BaseColumn):
 
     def reset(self):
         """Reset de naam en het aantal zetten."""
+
         super().reset()
 
         # Enable het naamvak
@@ -179,10 +190,12 @@ class RandomAI(_BaseColumn):
 
     def _set_name(self):
         """Zet de naam op 'Hall'."""
+
         self._name.set('Hall')
 
     def get_zet(self, state):
         """Neem een willekeurig aantal van een willekeurige stapel."""
+
         return _random_zet(state)
 
 
@@ -193,6 +206,7 @@ class NimSumAI(_BaseColumn):
 
     def _set_name(self):
         """Zet de naam op een willekeurige naam uit 'aiNames.txt'."""
+        
         # Open de file en zet alle lijnen in een list
         with open('aiNames.txt') as f:
             names = list(f)
