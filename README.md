@@ -3,6 +3,7 @@
 ![Nim Logo](/images/nim_logo_256.png?raw=true)
 
 The famous math game written in python.
+To run this game, run `nim.py`.
 
 ### P.S. :
 
