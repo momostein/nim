@@ -244,7 +244,7 @@ class Heap(tk.Frame):
     @property
     def input(self):
         """De ingegeven string."""
-        
+
         return self._strInput.get()
 
     @input.setter

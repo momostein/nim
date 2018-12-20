@@ -1,7 +1,7 @@
 # Project Objectorientatie: NIM - Hoofdprogramma
 # Brecht Ooms / 2 ELO-ICT / 2018
 
-import os
+import os.path
 import tkinter as tk
 from tkinter import messagebox
 
@@ -306,7 +306,7 @@ class BtnFrame(tk.Frame):
 
     def start(self):
         """Start het spel door de zet knop aan te zetten."""
-        
+
         self._btn_zet.config(state=tk.NORMAL)
 
     def reset(self):

@@ -206,7 +206,7 @@ class NimSumAI(_BaseColumn):
 
     def _set_name(self):
         """Zet de naam op een willekeurige naam uit 'aiNames.txt'."""
-        
+
         # Open de file en zet alle lijnen in een list
         with open('aiNames.txt') as f:
             names = list(f)
